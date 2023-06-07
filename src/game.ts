@@ -1,8 +1,8 @@
-import { Bird } from "./components/bird";
-import { SideSpike } from "./components/sidespike";
-import { TopBotSpike } from "./components/topbotspike";
+import Bird from "./components/Bird"
+import SideSpike from "./components/SideSpike"
+import TopBotSpike from "./components/TopBotSpike"
 import { CANVAS_HEIGHT, CANVAS_WIDTH, canvas, ctx } from "./constants"
-import { GameType } from "./types/game";
+import { GameType } from "./types/game"
 
 // Static Images
 const scoreImage = new Image()
@@ -24,26 +24,19 @@ class Game implements GameType {
         GAME: 2,
         OVER: 3,
     }
+
     private drawStart() {
         if (this.states.current == this.states.READY) {
+            // Spikes and Birds - For UI purpose only (non-interactive)
             this.spikes.draw()
             this.bird.draw()
 
-            ctx.fillStyle = '#ebebeb'
-            ctx.lineWidth = 5
-            ctx.font = 'bold 20px Teko'
-
-            ctx.fillText('Click to start', canvas.width / 2 - 55, canvas.height / 2 - 30)
-
-            const topX = 873
-            const topY = 240
+            // Best Score, Games Played
             ctx.fillStyle = '#aaa'
-            ctx.font = 'bold 30px Teko'
-            const botX = 614
-            const botY = 155
+            ctx.font = 'bold 30px Arial'
 
-            ctx.drawImage(dttsString, 0, 0, topX, topY, 30, 70, topX / 3.2, topY / 3.2)
-            ctx.drawImage(StringBEST, 0, 0, botX, botY, 70, 327, botX / 3.2, botY / 3.2)
+            ctx.drawImage(dttsString, 0, 0, 873, 240, 30, 70, 873 / 3.2, 240 / 3.2)
+            ctx.drawImage(StringBEST, 0, 0, 614, 155, 70, 327, 614 / 3.2, 155 / 3.2)
             ctx.drawImage(hitString, 0, 0, 111, 57, 105, 170, 111, 57)
 
             ctx.fillText(this.bird.bestScore.toString(), 267, 350)
@@ -56,9 +49,9 @@ class Game implements GameType {
             // Side Spikes
             this.spike.draw()
 
-            // Circle for scores
+            // Circle for Score Displayer
             const circle = new Path2D()
-            circle.arc(canvas.width / 2, canvas.height / 2 - 20, 65, 0, 2 * Math.PI, false)
+            circle.arc(CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 - 20, 65, 0, 2 * Math.PI, false)
             ctx.fillStyle = 'white'
             ctx.fill(circle)
             ctx.lineWidth = 10
@@ -66,13 +59,13 @@ class Game implements GameType {
             ctx.stroke(circle)
 
             ctx.fillStyle = '#ebebeb'
-            ctx.font = 'bold 70px Teko'
+            ctx.font = 'bold 70px Arial'
             if (this.bird.score < 10)
-                ctx.fillText(this.bird.score.toString(), canvas.width / 2 - 17, canvas.height / 2)
+                ctx.fillText(this.bird.score.toString(), CANVAS_WIDTH / 2 - 18, CANVAS_HEIGHT / 2)
             else if (this.bird.score >= 10 && this.bird.score < 100)
-                ctx.fillText(this.bird.score.toString(), canvas.width / 2 - 33, canvas.height / 2)
+                ctx.fillText(this.bird.score.toString(), CANVAS_WIDTH / 2 - 38, CANVAS_HEIGHT / 2)
             else if (this.bird.score >= 100)
-                ctx.fillText(this.bird.score.toString(), canvas.width / 2 - 50, canvas.height / 2)
+                ctx.fillText(this.bird.score.toString(), CANVAS_WIDTH / 2 - 55, CANVAS_HEIGHT / 2)
 
             // Bird
             this.bird.draw()
@@ -81,47 +74,57 @@ class Game implements GameType {
 
     private drawEnd() {
         if (this.states.current == this.states.OVER) {
+            // Spikes and Birds - For UI purpose only (non-interactive)
             this.spikes.draw()
             this.bird.draw()
 
-            ctx.fillStyle = '#ebebeb'
-            ctx.lineWidth = 5
-            ctx.font = 'bold 20px Teko'
-
-            //ctx.fillText('Click to start', canvas.width / 2 - 55, canvas.height / 2 - 30)
-
-            const topX = 873
-            const topY = 240
+            // Current Score, Best Score, Games Played
             ctx.fillStyle = '#aaa'
-            ctx.font = 'bold 30px Teko'
-            const botX = 614
-            const botY = 155
+            ctx.font = 'bold 30px Arial'
 
-            ctx.drawImage(dttsString, 0, 0, topX, topY, 30, 70, topX / 3.2, topY / 3.2)
-            ctx.drawImage(StringBEST, 0, 0, botX, botY, 70, 330, botX / 3.2, botY / 3.2)
+            ctx.drawImage(dttsString, 0, 0, 873, 240, 30, 70, 873 / 3.2, 240 / 3.2)
+            ctx.drawImage(StringBEST, 0, 0, 614, 155, 70, 330, 614 / 3.2, 155 / 3.2)
             ctx.drawImage(scoreImage, 0, 0, 900, 800, 70, 180, 220, 180)
+
             ctx.fillStyle = '#ebebeb'
-            ctx.fillText(this.bird.score.toString(), 162, 210)
+            if (this.bird.score < 10) ctx.fillText(this.bird.score.toString(), 160, 210)
+            else if (this.bird.score >= 10 && this.bird.score < 100)
+                ctx.fillText(this.bird.score.toString(), 155, 210)
+            else if (this.bird.score >= 100) ctx.fillText(this.bird.score.toString(), 150, 210)
             ctx.fillStyle = '#aaa'
             ctx.fillText(this.bird.bestScore.toString(), 267, 350)
             ctx.fillText(this.bird.gamesPlayed.toString(), 267, 377)
         }
     }
 
-    public updateGameState(): void {
-        switch (this.states.current) {
-            case this.states.READY:
-                this.bird.score = 0
-                this.states.current = this.states.GAME
-                break
-            case this.states.GAME:
-                this.bird.flap()
-                break
-            case this.states.OVER:
+    public updateGameState(e:MouseEvent): void {
+        if (this.states.current==this.states.READY){
+            // Reset score and enter the game
+            this.bird.score = 0
+            this.states.current = this.states.GAME
+        }
+        else if (this.states.current==this.states.GAME){
+            // Bird flaps after clicked
+            this.bird.flap()
+        }
+        else {
+            // Reset Bird and Spike States
+            this.bird.reset()
+            this.spike.reset()
+            // Draw boundaries for "Restart" button
+            const rect = canvas.getBoundingClientRect()
+            const x = e.clientX - rect.left
+            const y = e.clientY - rect.top
+            const path = new Path2D()
+            path.rect(70, 245, 200, 30)
+            path.closePath()
+            ctx.fillStyle = '#FFFFFF'
+            ctx.fillStyle = 'rgba(225,225,225,0.5)'
+            ctx.fill(path)
+            // Only change state if user clicks the button
+            if (ctx.isPointInPath(path, x, y)) {
                 this.states.current = this.states.READY
-                this.bird.reset()
-                this.spike.reset()
-                break
+            }
         }
     }
 
@@ -139,10 +142,10 @@ class Game implements GameType {
     }
 }
 
-export const game = new Game();
+export const game = new Game()
 
 document.addEventListener('click', function (e) {
-    game.updateGameState()
+    game.updateGameState(e)
 })
 
 function loop(): void {
@@ -151,6 +154,6 @@ function loop(): void {
     requestAnimationFrame(loop)
 }
 
-loop();
+loop()
 
 

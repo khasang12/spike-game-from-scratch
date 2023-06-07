@@ -1,10 +1,10 @@
 import { CANVAS_HEIGHT, ctx } from "../constants"
-import { TopBotSpikeType } from "../types/topbotspike"
+import { TopBotSpikeType } from "../types/top-bot-spike"
 
 const topSpikes = new Image()
 topSpikes.src = 'assets/images/spikes.png'
 
-export class TopBotSpike implements TopBotSpikeType {
+export default class TopBotSpike implements TopBotSpikeType {
     w = 1080
     h = 218
     topX = 0

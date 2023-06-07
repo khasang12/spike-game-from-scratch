@@ -1,6 +1,6 @@
 import { BirdType } from "./bird"
-import { SideSpikeType } from "./sidespike"
-import { TopBotSpikeType } from "./topbotspike"
+import { SideSpikeType } from "./side-spike"
+import { TopBotSpikeType } from "./top-bot-spike"
 
 export interface GameType {
     spikes: TopBotSpikeType
