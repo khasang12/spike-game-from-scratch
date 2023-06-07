@@ -16,7 +16,7 @@ export default class SideSpike implements SideSpikeType {
             let random_y = Math.floor(Math.random() * 320) + 60 // 60-380 (available height range)
             if (i > 0)
                 if (Math.sqrt(Math.pow(this.positions[i - 1], 2) - Math.pow(random_y, 2))<this.h / 2)
-                    random_y = this.positions[i - 1] + this.h
+                    random_y = this.positions[i - 1] + this.h / 2
             this.positions.push(random_y)
         }
     }

@@ -36,7 +36,7 @@ class Game implements GameType {
             ctx.font = 'bold 30px Arial'
 
             ctx.drawImage(dttsString, 0, 0, 873, 240, 30, 70, 873 / 3.2, 240 / 3.2)
-            ctx.drawImage(StringBEST, 0, 0, 614, 155, 70, 327, 614 / 3.2, 155 / 3.2)
+            ctx.drawImage(StringBEST, 0, 0, 614, 155, 60, 330, 614 / 3.2, 155 / 3.2)
             ctx.drawImage(hitString, 0, 0, 111, 57, 105, 170, 111, 57)
 
             ctx.fillText(this.bird.bestScore.toString(), 267, 350)
@@ -83,14 +83,14 @@ class Game implements GameType {
             ctx.font = 'bold 30px Arial'
 
             ctx.drawImage(dttsString, 0, 0, 873, 240, 30, 70, 873 / 3.2, 240 / 3.2)
-            ctx.drawImage(StringBEST, 0, 0, 614, 155, 70, 330, 614 / 3.2, 155 / 3.2)
-            ctx.drawImage(scoreImage, 0, 0, 900, 800, 70, 180, 220, 180)
+            ctx.drawImage(StringBEST, 0, 0, 614, 155, 60, 330, 614 / 3.2, 155 / 3.2)
+            ctx.drawImage(scoreImage, 0, 0, 900, 800, 65, 180, 220, 180)
 
             ctx.fillStyle = '#ebebeb'
-            if (this.bird.score < 10) ctx.fillText(this.bird.score.toString(), 160, 210)
+            if (this.bird.score < 10) ctx.fillText(this.bird.score.toString(), 155, 210)
             else if (this.bird.score >= 10 && this.bird.score < 100)
-                ctx.fillText(this.bird.score.toString(), 155, 210)
-            else if (this.bird.score >= 100) ctx.fillText(this.bird.score.toString(), 150, 210)
+                ctx.fillText(this.bird.score.toString(), 150, 210)
+            else if (this.bird.score >= 100) ctx.fillText(this.bird.score.toString(), 145, 210)
             ctx.fillStyle = '#aaa'
             ctx.fillText(this.bird.bestScore.toString(), 267, 350)
             ctx.fillText(this.bird.gamesPlayed.toString(), 267, 377)

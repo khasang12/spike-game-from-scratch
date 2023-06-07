@@ -66,8 +66,10 @@ export default class Bird implements BirdType {
 
         ctx.fillRect(game.bird.x + this.w / 3.2, game.bird.y, 4, 4)
         ctx.fillRect(game.bird.x + this.w / 3.2, game.bird.y + this.h / 3.1, 4, -4)
+        ctx.fillRect(game.bird.x + this.w / 3.2, (game.bird.y + game.bird.y + this.h / 3.1)/2, 4, -4)
         ctx.fillRect(game.bird.x, game.bird.y, 4, -4)
         ctx.fillRect(game.bird.x, game.bird.y + this.h / 3.1, 4, 4)
+        ctx.fillRect(game.bird.x, (game.bird.y + game.bird.y + this.h / 3.1) / 2, 4, 4)
     }
 
     // Utilities: Check a point is inside the triangle
@@ -111,6 +113,14 @@ export default class Bird implements BirdType {
                         [x2, y2],
                         [x3, y3],
                     ]
+                ) ||
+                this.checkInsideTriangle(
+                    [game.bird.x + this.w / 3.2, (game.bird.y + game.bird.y + this.h / 3.1) / 2],
+                    [
+                        [x1, y1],
+                        [x2, y2],
+                        [x3, y3],
+                    ]
                 )
             )
                 this.gameOver()
@@ -132,6 +142,14 @@ export default class Bird implements BirdType {
                 ) ||
                 this.checkInsideTriangle(
                     [game.bird.x, game.bird.y + this.h / 3.1],
+                    [
+                        [x1, y1],
+                        [x2, y2],
+                        [x3, y3],
+                    ]
+                ) ||
+                this.checkInsideTriangle(
+                    [game.bird.x, (game.bird.y + game.bird.y + this.h / 3.1)/2],
                     [
                         [x1, y1],
                         [x2, y2],
