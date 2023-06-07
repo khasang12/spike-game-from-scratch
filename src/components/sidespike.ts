@@ -13,10 +13,9 @@ export default class SideSpike implements SideSpikeType {
     public update = () => {
         this.positions = []
         for (let i = 0; i < this.length; i++) {
-            let random_y = Math.floor(Math.random() * 320) + 60 // 60-380 (available height range)
-            if (i > 0)
-                if (Math.sqrt(Math.pow(this.positions[i - 1], 2) - Math.pow(random_y, 2))<this.h / 2)
-                    random_y = this.positions[i - 1] + this.h / 2
+            // Bucket 0 -> i
+            const bucketSize = (380-60)/this.length;
+            const random_y = Math.floor(Math.random() * bucketSize) + 60 + bucketSize * i // 60-380 (available height range)
             this.positions.push(random_y)
         }
     }

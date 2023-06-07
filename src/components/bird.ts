@@ -12,13 +12,13 @@ export default class Bird implements BirdType {
     h = 101
     x = CANVAS_WIDTH / 2 - 20
     y = CANVAS_HEIGHT / 2
-    score = 10
+    score = 0
     bestScore = 0
     gamesPlayed = 0
     speed = 0
     jump = 3
-    gravity = 0.1
-    vx = 3
+    gravity = 0.15
+    vx = 2
     image = birdImage2
     direction = DIRECTIONS.RIGHT
 
@@ -205,6 +205,7 @@ export default class Bird implements BirdType {
 
     public flap = () => {
         this.speed = this.jump
+        this.image = birdImage2
     }
 
     public reset = () => {
