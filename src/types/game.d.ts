@@ -1,15 +1,17 @@
-import { BirdType } from "./bird"
-import { SideSpikeType } from "./side-spike"
-import { TopBotSpikeType } from "./top-bot-spike"
+import Background from '../components/Background'
+import Bird from '../components/Bird'
+import Collision from '../components/Collision'
+import Score from '../components/Score'
+import SpikesManager from '../components/SpikesManager'
+import TopBotSpike from '../components/TopBotSpike'
 
 export interface GameType {
-    spikes: TopBotSpikeType
-    spike: SideSpikeType
-    bird: BirdType
-    states: {
-        current: number,
-        READY: number,
-        GAME: number,
-        OVER: number,
-    }
+    bird: Bird
+    score: Score
+    candy: Candy
+    topBotSpikes: TopBotSpike
+    sideSpikes: SpikesManager
+    background: Background
+    collision: Collision
+    state: StateController
 }

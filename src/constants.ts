@@ -7,3 +7,8 @@ export const DIRECTIONS = {
     LEFT: 1,
     RIGHT: 2,
 }
+export const STATES = {
+    READY: 1,
+    GAME: 2,
+    OVER: 3,
+}

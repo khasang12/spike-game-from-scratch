@@ -1,18 +1,26 @@
-import { CANVAS_HEIGHT, ctx } from "../constants"
-import { TopBotSpikeType } from "../types/top-bot-spike"
+import { CANVAS_HEIGHT, ctx } from '../constants'
+import { GameObject } from '../types/object'
 
 const topSpikes = new Image()
 topSpikes.src = 'assets/images/spikes.png'
 
-export default class TopBotSpike implements TopBotSpikeType {
-    w = 1080
-    h = 218
-    topX = 0
-    topY = 0
-    botX = 1080 / 3.2
-    botY = CANVAS_HEIGHT
+export default class TopBotSpike implements GameObject {
+    private w
+    private h
+    private topX
+    private topY
+    private botX
+    private botY
+    constructor() {
+        this.w = 1080
+        this.h = 218
+        this.topX = 0
+        this.topY = 0
+        this.botX = 1080 / 3.2
+        this.botY = CANVAS_HEIGHT
+    }
 
-    public draw = () => {
+    public draw() {
         ctx.drawImage(
             topSpikes,
             0,
@@ -39,5 +47,8 @@ export default class TopBotSpike implements TopBotSpikeType {
             this.h / 3.2
         )
         ctx.restore()
+    }
+    public update() {
+        alert('Not implemented')
     }
 }
