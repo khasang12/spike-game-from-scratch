@@ -33,14 +33,16 @@ export default class SpikesManager implements GameObject {
     }
 
     public update() {
+        console.log(this.spikes);
         if (game.score.getScore() > 0 && game.score.getScore() % 5 === 0) {
             this.spikes.push(new SideSpike())
+            this.length++
         }
 
         const bucketSize = (380 - 90) / this.length
         for (let i = 0; i < this.length; i++) {
             // Bucket 0 -> i
-            const random_y = Math.floor(this.genRandom() * bucketSize + 90 + bucketSize * i) + 20 // 60-380 (available height range)
+            const random_y = Math.floor(this.genRandom() * bucketSize + 80 + bucketSize * i) // 60-380 (available height range)
             if (random_y >= 90 && random_y < 380) this.spikes[i].setY(random_y)
         }
     }

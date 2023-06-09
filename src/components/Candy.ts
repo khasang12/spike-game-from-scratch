@@ -41,7 +41,7 @@ export class Candy extends BaseCandy implements GameObject {
     }
     public draw(): void {
         const spikes = game.sideSpikes.getSpikes()
-        const lastSpike = spikes[2]
+        const lastSpike = spikes[spikes.length-1]
         if (Collision.checkCandyCollided) {
             this.x = -40
             ctx.drawImage(candyImage, 0, 0, this.w, this.h, -10, -100, this.w / 3.35, this.h / 3.35)
