@@ -65,8 +65,10 @@ export default class Collision {
                     [x + game.bird.getW() / 3.2, (y + y + game.bird.getH() / 3.1) / 2],
                     [pA, pB, pC]
                 )
-            )
+            ){
                 game.score.gameOver()
+            }
+                
         } else {
             pA = [0, sp + 12]
             pB = [0, sp + h / 2 - 18]
@@ -75,7 +77,7 @@ export default class Collision {
                 this.checkInsideTriangle([x, y], [pA, pB, pC]) ||
                 this.checkInsideTriangle([x, y + game.bird.getH() / 3.1], [pA, pB, pC]) ||
                 this.checkInsideTriangle(
-                    [x, (game.bird.getY() + game.bird.getY() + game.bird.getH() / 3.1) / 2],
+                    [x, (y + y + game.bird.getH() / 3.1) / 2],
                     [pA, pB, pC]
                 )
             )
@@ -93,11 +95,11 @@ export default class Collision {
             game.candy.getH(),
         ]
         if (
-            (bx >= cx && bx <= cx + cw - 80 && by >= cy && by <= cy + ch) ||
-            (bx >= CANVAS_WIDTH - cx + 140 &&
-                bx <= CANVAS_WIDTH - cx + 140 + cw &&
-                by >= cy &&
-                by <= cy + ch)
+            (bx >= cx && bx <= cx + cw - 90 && by >= cy - 20 && by <= cy + ch) ||
+            (bx >= CANVAS_WIDTH - cx + 180 &&
+                bx <= CANVAS_WIDTH - cx + 180 + cw &&
+                by >= cy - 20 &&
+                by <= cy + ch - 40)
         ) {
             if (!this.checkCandyCollided) {
                 this.checkCandyCollided = true

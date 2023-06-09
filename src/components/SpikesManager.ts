@@ -33,7 +33,6 @@ export default class SpikesManager implements GameObject {
     }
 
     public update() {
-        console.log(this.spikes);
         if (game.score.getScore() > 0 && game.score.getScore() % 5 === 0) {
             this.spikes.push(new SideSpike())
             this.length++
