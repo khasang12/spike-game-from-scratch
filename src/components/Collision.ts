@@ -1,10 +1,10 @@
-import { CANVAS_HEIGHT, CANVAS_WIDTH, DIRECTIONS } from '../constants'
-import { game } from '../game'
+import { CANVAS_HEIGHT, CANVAS_WIDTH, DIRECTIONS, ctx } from '../constants'
+import { game } from './GameManager'
 
 export default class Collision {
-    public checkCandyCollided = false
+    public static checkCandyCollided = false
     // Wall Collision: Change BIRD direction, Update SPIKE appearance and Update SCORE
-    public checkWallCollision = () => {
+    public static checkWallCollision = () => {
         const curScore = game.score.getScore()
         if (game.bird.getDirection() == DIRECTIONS.RIGHT)
             if (Math.floor(game.bird.getX()) >= CANVAS_WIDTH - Math.floor(game.bird.getW() / 3.2)) {
@@ -24,7 +24,7 @@ export default class Collision {
     }
 
     // Upper && Lower Edge Collision: Game Over
-    public checkOutOfBounds = () => {
+    public static checkOutOfBounds = () => {
         if (
             game.bird.getY() < Math.floor(game.bird.getW() / 3.2) ||
             game.bird.getY() > CANVAS_HEIGHT - Math.floor(game.bird.getW() / 3.2) - 50
@@ -33,7 +33,7 @@ export default class Collision {
     }
 
     // Utilities: Check a point is inside the triangle
-    private checkInsideTriangle = (point: number[], triangle: number[][]) => {
+    private static checkInsideTriangle = (point: number[], triangle: number[][]) => {
         // Compute the barycentric coordinates of the point with respect to the triangle
         const [v0, v1, v2] = triangle
         const denom = (v1[1] - v2[1]) * (v0[0] - v2[0]) + (v2[0] - v1[0]) * (v0[1] - v2[1])
@@ -48,7 +48,7 @@ export default class Collision {
     }
 
     // Spike Collision
-    public checkHitSpike = (sp: number) => {
+    public static checkHitSpike = (sp: number) => {
         const [x, y, h] = [game.bird.getX(), game.bird.getY(), 69]
         let pA: [number, number], pB: [number, number], pC: [number, number]
         if (game.bird.getDirection() == DIRECTIONS.RIGHT) {
@@ -84,7 +84,7 @@ export default class Collision {
     }
 
     // Candy Collision
-    public checkHitCandy = () => {
+    public static checkHitCandy = () => {
         const [bx, by] = [game.bird.getX(), game.bird.getY()]
         const [cx, cy, cw, ch] = [
             game.candy.getX(),
@@ -92,11 +92,63 @@ export default class Collision {
             game.candy.getW(),
             game.candy.getH(),
         ]
-        if (bx >= cx && bx <= cx + cw - 80 && by >= cy && by <= cy + ch) {
+        if (
+            (bx >= cx && bx <= cx + cw - 80 && by >= cy && by <= cy + ch) ||
+            (bx >= CANVAS_WIDTH - cx + 140 &&
+                bx <= CANVAS_WIDTH - cx + 140 + cw &&
+                by >= cy &&
+                by <= cy + ch)
+        ) {
             if (!this.checkCandyCollided) {
                 this.checkCandyCollided = true
                 game.candy.update()
             }
         }
+    }
+
+    // Debug: Draw Boundaries for Collision Detection
+    public static drawBoundBox = (sp: number) => {
+        ctx.fillStyle = 'red'
+
+        ctx.fillRect(0, sp + 12, 4, -4)
+        ctx.fillRect(0, sp + game.sideSpikes.getSpikes()[0].getH() / 2 - 18, 4, 4)
+        ctx.fillRect(
+            0 + game.sideSpikes.getSpikes()[0].getW() / 3 - 2,
+            sp + game.sideSpikes.getSpikes()[0].getH() / 8 + 18,
+            4,
+            -4
+        )
+
+        ctx.fillRect(CANVAS_WIDTH - 3, sp + game.sideSpikes.getSpikes()[0].getH() / 2 - 18, 4, -4)
+        ctx.fillRect(CANVAS_WIDTH - 3, sp + 12, 4, 4)
+        ctx.fillRect(
+            CANVAS_WIDTH - 3 - game.sideSpikes.getSpikes()[0].getW() / 3.2,
+            sp + game.sideSpikes.getSpikes()[0].getH() / 8 + 18,
+            4,
+            -4
+        )
+
+        ctx.fillStyle = 'green'
+
+        ctx.fillRect(game.bird.getX() + game.bird.getW() / 3.2, game.bird.getY(), 4, 4)
+        ctx.fillRect(
+            game.bird.getX() + game.bird.getW() / 3.2,
+            game.bird.getY() + game.bird.getH() / 3.1,
+            4,
+            -4
+        )
+        ctx.fillRect(game.bird.getX(), game.bird.getY(), 4, -4)
+        ctx.fillRect(game.bird.getX(), game.bird.getY() + game.bird.getH() / 3.1, 4, 4)
+
+        ctx.fillStyle = 'yellow'
+        ctx.fillRect(game.candy.getX() + game.candy.getW() / 3.2, game.candy.getY(), 4, 4)
+        ctx.fillRect(
+            game.candy.getX() + game.candy.getW() / 3.2,
+            game.candy.getY() + game.candy.getH() / 3.1,
+            4,
+            -4
+        )
+        ctx.fillRect(game.candy.getX(), game.candy.getY(), 4, -4)
+        ctx.fillRect(game.candy.getX(), game.candy.getY() + game.candy.getH() / 3.1, 4, 4)
     }
 }

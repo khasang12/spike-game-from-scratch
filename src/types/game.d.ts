@@ -6,12 +6,10 @@ import SpikesManager from '../components/SpikesManager'
 import TopBotSpike from '../components/TopBotSpike'
 
 export interface GameType {
-    bird: Bird
+    bird: BaseBird
     score: Score
-    candy: Candy
+    candy: BaseCandy
     topBotSpikes: TopBotSpike
     sideSpikes: SpikesManager
-    background: Background
-    collision: Collision
     state: StateController
 }

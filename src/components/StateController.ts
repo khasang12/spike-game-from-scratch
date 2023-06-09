@@ -1,5 +1,7 @@
 import { STATES, canvas, ctx } from '../constants'
-import { game } from '../game'
+import Background from './Background'
+import Collision from './Collision'
+import { game } from './GameManager'
 
 export class BaseStateController {
     current: number
@@ -11,15 +13,15 @@ export default class StateController extends BaseStateController {
         this.current = STATES.READY
     }
     public drawStart() {
-        if (game.state.current == STATES.READY) game.background.drawStart()
+        if (game.state.current == STATES.READY) Background.drawStart()
     }
 
     public drawGame() {
-        if (game.state.current == STATES.GAME) game.background.drawGame()
+        if (game.state.current == STATES.GAME) Background.drawGame()
     }
 
     public drawEnd() {
-        if (game.state.current == STATES.OVER) game.background.drawEnd()
+        if (game.state.current == STATES.OVER) Background.drawEnd()
     }
 
     public updateGameState(e: MouseEvent): void {
@@ -48,6 +50,7 @@ export default class StateController extends BaseStateController {
             if (ctx.isPointInPath(path, x, y)) {
                 game.state.current = STATES.READY
                 game.score.reset()
+                Collision.checkCandyCollided = false
             }
         }
     }

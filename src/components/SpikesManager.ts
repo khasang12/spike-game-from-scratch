@@ -1,16 +1,12 @@
-import { game } from '../game'
+import { game } from './GameManager'
 import { GameObject } from '../types/object'
-//import { SpikesManagerType } from '../types/side-spike'
 import SideSpike from './SideSpike'
+import BaseSpike from './BaseSpike'
 
-export class BaseSpikesManager {
+export default class SpikesManager implements GameObject {
     protected length: number
-    protected spikes: SideSpike[]
-}
-
-export default class SpikesManager extends BaseSpikesManager implements GameObject {
+    protected spikes: BaseSpike[]
     constructor() {
-        super()
         this.length = 3
         this.spikes = []
         for (let i = 0; i < this.length; i++) {

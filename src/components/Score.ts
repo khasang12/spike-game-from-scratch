@@ -1,5 +1,5 @@
 import { STATES } from '../constants'
-import { game } from '../game'
+import { game } from './GameManager'
 //import BaseScoreCounter from '../types/score'
 
 export class BaseScoreCounter {

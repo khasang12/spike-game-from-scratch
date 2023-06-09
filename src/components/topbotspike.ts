@@ -1,17 +1,16 @@
 import { CANVAS_HEIGHT, ctx } from '../constants'
-import { GameObject } from '../types/object'
+import BaseSpike from './BaseSpike'
 
 const topSpikes = new Image()
 topSpikes.src = 'assets/images/spikes.png'
 
-export default class TopBotSpike implements GameObject {
-    private w
-    private h
+export default class TopBotSpike extends BaseSpike {
     private topX
     private topY
     private botX
     private botY
     constructor() {
+        super()
         this.w = 1080
         this.h = 218
         this.topX = 0

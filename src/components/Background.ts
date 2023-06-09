@@ -1,5 +1,6 @@
 import { CANVAS_HEIGHT, CANVAS_WIDTH, ctx } from '../constants'
-import { game } from '../game'
+import Collision from './Collision'
+import { game } from './GameManager'
 
 // Static Images
 const scoreImage = new Image()
@@ -12,7 +13,7 @@ const hitString = new Image()
 hitString.src = 'assets/images/HitString.png'
 
 export default class Background {
-    public drawStart() {
+    public static drawStart() {
         // Spikes and Birds - For UI purpose only (non-interactive)
         game.topBotSpikes.draw()
         game.bird.draw()
@@ -28,7 +29,7 @@ export default class Background {
         ctx.fillText(game.score.getBestScore().toString(), 267, 350)
         ctx.fillText(game.score.getGamesPlayed().toString(), 267, 377)
     }
-    public drawGame() {
+    public static drawGame() {
         // Side Spikes
         game.sideSpikes.draw()
         game.candy.draw()
@@ -54,7 +55,7 @@ export default class Background {
         // Bird
         game.bird.draw()
     }
-    public drawEnd() {
+    public static drawEnd() {
         // Spikes and Birds - For UI purpose only (non-interactive)
         game.topBotSpikes.draw()
         //game.bird.draw()
@@ -75,6 +76,6 @@ export default class Background {
         ctx.fillStyle = '#aaa'
         ctx.fillText(game.score.getBestScore().toString(), 267, 350)
         ctx.fillText(game.score.getGamesPlayed().toString(), 267, 377)
-        game.collision.checkCandyCollided = false
+        Collision.checkCandyCollided = false
     }
 }
