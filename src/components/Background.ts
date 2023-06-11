@@ -29,6 +29,7 @@ export default class Background {
         ctx.fillText(game.score.getBestScore().toString(), 267, 350)
         ctx.fillText(game.score.getGamesPlayed().toString(), 267, 377)
     }
+
     public static drawGame() {
         // Side Spikes
         game.sideSpikes.draw()
@@ -55,6 +56,7 @@ export default class Background {
         // Bird
         game.bird.draw()
     }
+    
     public static drawEnd() {
         // Spikes and Birds - For UI purpose only (non-interactive)
         game.topBotSpikes.draw()

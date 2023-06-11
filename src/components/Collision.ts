@@ -3,6 +3,7 @@ import { game } from './GameManager'
 
 export default class Collision {
     public static checkCandyCollided = false
+    
     // Wall Collision: Change BIRD direction, Update SPIKE appearance and Update SCORE
     public static checkWallCollision = () => {
         const curScore = game.score.getScore()

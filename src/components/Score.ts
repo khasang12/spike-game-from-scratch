@@ -22,6 +22,7 @@ export default class Score extends BaseScoreCounter {
         this.candyCount = 0
         this.score = 0
     }
+    
     public setScore(a: number) {
         this.score = a
     }

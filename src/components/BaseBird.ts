@@ -10,11 +10,13 @@ export class BaseBird {
     protected frame: number
     protected image: HTMLImageElement
     protected direction: number
+
     constructor() {
         if (this.constructor == BaseBird) {
             throw new Error("Abstract classes can't be instantiated.")
         }
     }
+    
     public getX() {
         return this.x
     }

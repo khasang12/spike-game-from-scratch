@@ -13,6 +13,7 @@ export default class SpikesManager implements GameObject {
             this.spikes.push(new SideSpike())
         }
     }
+
     public genRandom(): number {
         let u = 0,
             v = 0
@@ -23,9 +24,11 @@ export default class SpikesManager implements GameObject {
         if (num > 1 || num < 0) return this.genRandom() // resample between 0 and 1
         return num
     }
+
     public getSpikes() {
         return this.spikes
     }
+    
     public draw() {
         for (let i = 0; i < this.length; i++) {
             this.spikes[i].draw()

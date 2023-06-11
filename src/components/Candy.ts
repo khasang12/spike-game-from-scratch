@@ -15,6 +15,7 @@ export class Candy extends BaseCandy implements GameObject {
         this.x = 0
         this.y = -70
     }
+
     public draw(): void {
         const spikes = game.sideSpikes.getSpikes()
         const lastSpike = spikes[spikes.length - 1]
@@ -39,6 +40,7 @@ export class Candy extends BaseCandy implements GameObject {
             )
         }
     }
+    
     public update(): void {
         game.score.updateCandy()
     }

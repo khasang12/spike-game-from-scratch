@@ -1,32 +1,40 @@
-import { GameObject } from "../types/object"
+import { GameObject } from '../types/object'
 
 export default class BaseSpike implements GameObject {
     protected w: number
     protected h: number
     protected x: number
     protected y: number
-    getH() {
+
+    public getH() {
         return this.h
     }
-    getW() {
+
+    public getW() {
         return this.w
     }
-    setY(a: number) {
+
+    public setY(a: number) {
         this.y = a
     }
-    getY() {
+
+    public getY() {
         return this.y
     }
-    setX(a: number) {
+
+    public setX(a: number) {
         this.x = a
     }
-    getX() {
+
+    public getX() {
         return this.x
     }
-    draw() {
+
+    public draw() {
         alert('Not implemented')
     }
-    update() {
+
+    public update() {
         alert('Not implemented')
     }
 }
