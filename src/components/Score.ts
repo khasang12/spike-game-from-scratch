@@ -22,7 +22,7 @@ export default class Score extends BaseScoreCounter {
         this.candyCount = 0
         this.score = 0
     }
-    
+
     public setScore(a: number) {
         this.score = a
     }
@@ -53,7 +53,7 @@ export default class Score extends BaseScoreCounter {
     }
 
     public gameOver() {
-        game.state.current = STATES.OVER
+        game.state.setCurrent(STATES.OVER)
         this.bestScore = Math.max(this.score + 3 * this.candyCount, this.bestScore)
         this.gamesPlayed++
         game.bird.reset()

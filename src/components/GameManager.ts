@@ -6,22 +6,40 @@ import StateController from './StateController'
 import TopBotSpike from './TopBotSpike'
 import { CANVAS_HEIGHT, CANVAS_WIDTH, ctx } from '../constants'
 import { GameType } from '../types/game'
+import { BaseBird } from './BaseBird'
+import { BaseCandy } from './BaseCandy'
 
-class Game implements GameType {
-    bird = new Bird()
-    score = new Score()
-    candy = new Candy()
-    topBotSpikes = new TopBotSpike()
-    sideSpikes = new SpikesManager()
-    state = new StateController()
+// Singleton Pattern
+class GameManager implements GameType {
+    private static instance: GameManager
+    public bird: BaseBird
+    public score: Score
+    public candy: BaseCandy
+    public topBotSpikes: TopBotSpike
+    public sideSpikes: SpikesManager
+    public state: StateController
+    
+    private constructor() {
+        this.bird = new Bird()
+        this.score = new Score()
+        this.candy = new Candy()
+        this.topBotSpikes = new TopBotSpike()
+        this.sideSpikes = new SpikesManager()
+        this.state = new StateController()
+    }
+
+    public static getInstance(): GameManager {
+        if (!GameManager.instance) {
+            GameManager.instance = new GameManager()
+        }
+        return GameManager.instance
+    }
 
     public draw(): void {
         ctx.fillStyle = '#ebebeb'
         ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT)
         this.topBotSpikes.draw()
-        this.state.drawStart()
-        this.state.drawGame()
-        this.state.drawEnd()
+        this.state.draw()
     }
 
     public update(deltaTime: number): void {
@@ -32,4 +50,4 @@ class Game implements GameType {
     }
 }
 
-export const game = new Game()
+export const game = GameManager.getInstance()

@@ -47,12 +47,12 @@ export default class Bird extends BaseBird implements GameObject {
     }
 
     public update(deltaTime: number) {
-        if (game.state.current == STATES.READY) {
+        if (game.state.getCurrent() == STATES.READY) {
             this.y += (0.1 * deltaTime) / 16
             if (Math.abs(this.y - CANVAS_HEIGHT / 2) >= 10) {
                 this.y = CANVAS_HEIGHT / 2
             }
-        } else if (game.state.current == STATES.OVER) {
+        } else if (game.state.getCurrent() == STATES.OVER) {
             this.y = CANVAS_HEIGHT / 2 + 45
         } else {
             this.speed -= (this.gravity * deltaTime) / 16

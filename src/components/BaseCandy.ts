@@ -26,4 +26,12 @@ export class BaseCandy {
     public getH() {
         return this.h
     }
+
+    public draw() {
+        alert('Not implemented')
+    }
+
+    public update() {
+        alert('Not implemented')
+    }
 }
