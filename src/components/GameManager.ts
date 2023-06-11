@@ -24,9 +24,8 @@ class Game implements GameType {
         this.state.drawEnd()
     }
 
-    public update(elapse: number): void {
-        this.bird.setFrame(elapse)
-        this.bird.update()
+    public update(deltaTime: number): void {
+        this.bird.update(deltaTime)
         document.addEventListener('click', function (e) {
             game.state.updateGameState(e)
         })

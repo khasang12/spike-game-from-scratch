@@ -14,10 +14,13 @@ export default class SideSpike extends BaseSpike {
         this.x = 70
         this.y = -70
     }
+
     public draw(): void {
         if (game.bird.getDirection() == DIRECTIONS.RIGHT) {
-            ctx.drawImage(spikeImage, 0, 0, this.w, this.h, 298, this.y, this.w / 2, this.h / 2)
+            this.x = 298
+            ctx.drawImage(spikeImage, 0, 0, this.w, this.h, this.x, this.y, this.w / 2, this.h / 2)
         } else if (game.bird.getDirection() == DIRECTIONS.LEFT) {
+            this.x = -22
             ctx.save()
             ctx.translate(0, this.y)
             ctx.scale(-1, 1)
@@ -25,6 +28,7 @@ export default class SideSpike extends BaseSpike {
             ctx.restore()
         }
     }
+    
     public update(): void {
         alert('Not implemented')
     }

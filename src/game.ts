@@ -1,12 +1,12 @@
 import { game } from "./components/GameManager"
 
 
-function loop(currentTime: number): void {
-    const nextTime = Date.now()
+function loop(lastTime: number): void {
+    const curTime = Date.now()
     game.draw()
-    game.update(nextTime - currentTime)
-    currentTime = Date.now()
-    requestAnimationFrame(() => loop(currentTime))
+    game.update(curTime - lastTime)
+    lastTime = Date.now()
+    requestAnimationFrame(() => loop(lastTime))
 }
 
 loop(Date.now())

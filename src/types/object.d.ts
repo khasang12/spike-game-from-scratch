@@ -1,4 +1,4 @@
 export interface GameObject {
     draw(): void
-    update(): void
+    update(lastTime: number): void
 }
