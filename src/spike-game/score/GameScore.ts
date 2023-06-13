@@ -55,7 +55,7 @@ export default class GameScore extends BaseGameObject {
         if (score < 10)
             renderer.drawText(spikeGame.getScore().score.toString(), 163, 235, 'white', 50)
         else if (score >= 10 && score < 100)
-            renderer.drawText(spikeGame.getScore().score.toString(), 167, 235, 'white', 50)
+            renderer.drawText(spikeGame.getScore().score.toString(), 170, 235, 'white', 50)
         else if (score >= 100)
             renderer.drawText(spikeGame.getScore().score.toString(), 163, 235, 'white', 50)
 
@@ -75,7 +75,7 @@ export default class GameScore extends BaseGameObject {
                 CANVAS_HEIGHT / 2 + 18,
                 '#ababab'
             )
-        else if (this.score >= 10 && this.score < 100)
+        else if (this.score < 100)
             renderer.drawText(
                 this.score.toString(),
                 CANVAS_WIDTH / 2,

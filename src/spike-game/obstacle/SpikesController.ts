@@ -41,6 +41,7 @@ export default class SpikesController extends BaseGameObject {
 
     public update() {
         if (spikeGame.getScore().score > 0 && spikeGame.getScore().score % 5 === 0) {
+            console.log(1111)
             this.spikes.push(new SideSpike(new Vector2D(0, 0)))
             this.length++
         }

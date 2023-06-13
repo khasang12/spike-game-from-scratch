@@ -1,6 +1,7 @@
 import BaseGameObject from '../../engine/components/BaseGameObject'
 import Body from '../../engine/components/physics/Body'
 import Collider from '../../engine/components/physics/Collider'
+import Sound from '../../engine/components/sound/Sound'
 import Sprite from '../../engine/components/sprite/Sprite'
 import Vector2D from '../../engine/utils/Vector2D'
 import { CANVAS_HEIGHT, CANVAS_WIDTH, DIRECTIONS } from '../../engine/utils/constants'
@@ -12,12 +13,21 @@ birdImage1.src = 'assets/images/bird1_small.png'
 const birdImage2 = new Image()
 birdImage2.src = 'assets/images/bird2_small.png'
 
+const soundFlap = new Sound('assets/sounds/flap.wav')
+const soundCandy = new Sound('assets/sounds/spikes.wav')
+const soundCollide = new Sound('assets/sounds/lose1.wav')
+const soundSide = new Sound('assets/sounds/side.wav')
+
 export default class Bird extends BaseGameObject {
+    public checkCandyCollided = false
     private name: string
     private sprite: Sprite
     private direction: number
     private physics: Body
     private collider: Collider
+    private soundFlap: Sound
+    private soundCandy: Sound
+    private soundCollide: Sound
 
     constructor(name: string, pos: Vector2D) {
         super(pos)
@@ -25,6 +35,8 @@ export default class Bird extends BaseGameObject {
         this.setH(101 / 3.2)
         this.setX(CANVAS_WIDTH / 2 - 20)
         this.setY(CANVAS_HEIGHT / 2)
+
+        
 
         this.name = name
         this.direction = DIRECTIONS.RIGHT
@@ -39,18 +51,30 @@ export default class Bird extends BaseGameObject {
     public draw(): void {
         if (this.name == 'Game') {
             const gameScene = <GameScene>spikeGame.game.sceneManager.getCurrentScene()
-            if (this.collider.checkOutOfBounds()) spikeGame.game.over()
-            console.log(gameScene.getCandy().getY())
-            if (this.collider.checkHitRectangle(gameScene.getCandy())) {
-                console.log('hit candy')
+            if (this.collider.checkOutOfBounds()){
+                soundCollide.play()
+                spikeGame.game.over()
+            }
+            if (
+                this.collider.checkHitRectangle(gameScene.getCandy()) &&
+                gameScene.getCandy().getIsEnabled()
+            ) {
+                soundCandy.play()
+                gameScene.getScore().updateCandy()
+                gameScene.getCandy().setToggleActive(false)
             }
             for (const sp of gameScene.getSpikes()) {
                 if (this.checkHitSpike(sp.getY())) {
-                    console.log('hit spike')
+                    soundCollide.play()
+                    spikeGame.game.over()
                 }
             }
         }
+        this.handleChangeDirection()
+        this.sprite.setSpriteImg(birdImage2)
+    }
 
+    private handleChangeDirection() {
         if (this.direction == DIRECTIONS.RIGHT) {
             spikeGame.game.renderer.drawImage(
                 this.sprite.getSpriteImg(),
@@ -60,9 +84,11 @@ export default class Bird extends BaseGameObject {
                 this.getH()
             )
             if (this.collider.checkWallCollision(this.direction) && this.name == 'Game') {
+                soundSide.play()
                 this.direction = DIRECTIONS.LEFT
                 this.physics.changeDirection()
-                spikeGame.updateCollision()
+                spikeGame.updateWallCollision()
+                this.enableCandy()
             }
         } else if (this.direction == DIRECTIONS.LEFT) {
             spikeGame.game.renderer.drawMirrorLRImage(
@@ -73,50 +99,51 @@ export default class Bird extends BaseGameObject {
                 this.getH()
             )
             if (this.collider.checkWallCollision(this.direction) && this.name == 'Game') {
+                soundSide.play()
                 this.direction = DIRECTIONS.RIGHT
                 this.physics.changeDirection()
-                spikeGame.updateCollision()
+                spikeGame.updateWallCollision()
+                this.enableCandy()
             }
         }
     }
 
+    private enableCandy() {
+        if (this.name == 'Game') {
+            const gameScene = <GameScene>spikeGame.game.sceneManager.getCurrentScene()
+            if (!gameScene.getCandy().getIsEnabled()) gameScene.getCandy().setToggleActive(true)
+        }
+    }
+
     public flap = () => {
+        soundFlap.play()
         this.sprite.setSpriteImg(birdImage1)
         this.physics.jump()
     }
 
     public checkHitSpike = (sp: number) => {
-        const [x, y, h] = [this.getX(), this.getY(), 69]
+        const [x, y, w, h] = [this.getX(), this.getY(), this.getW(), this.getH()]
+        const [sw, sh] = [69 / 3.2, 116 / 3.2]
         let pA: Vector2D, pB: Vector2D, pC: Vector2D
         if (this.direction == DIRECTIONS.RIGHT) {
-            pA = new Vector2D(CANVAS_WIDTH - 3, sp + 12)
-            pB = new Vector2D(CANVAS_WIDTH - 3, sp + h / 2 - 18)
-            pC = new Vector2D(CANVAS_WIDTH - 3 - 69 / 3.2, sp + h / 8 + 18)
+            pA = new Vector2D(CANVAS_WIDTH - 3 - sw, sp)
+            pB = new Vector2D(CANVAS_WIDTH - 3 - 2 * sw, sp + sh / 2)
+            pC = new Vector2D(CANVAS_WIDTH - 3 - sw, sp + sh)
             if (
-                this.collider.checkHitTriangle(new Vector2D(x + this.getW() / 3.2, y), [
-                    pA,
-                    pB,
-                    pC,
-                ]) ||
-                this.collider.checkHitTriangle(
-                    new Vector2D(x + this.getW() / 3.2, y + this.getH() / 3.1),
-                    [pA, pB, pC]
-                ) ||
-                this.collider.checkHitTriangle(
-                    new Vector2D(x + this.getW() / 3.2, (y + y + this.getH() / 3.1) / 2),
-                    [pA, pB, pC]
-                )
+                this.collider.checkHitTriangle(new Vector2D(x + this.getW(), y), [pA, pB, pC]) ||
+                this.collider.checkHitTriangle(new Vector2D(x + w, y + h), [pA, pB, pC]) ||
+                this.collider.checkHitTriangle(new Vector2D(x + w, (y + y + h) / 2), [pA, pB, pC])
             ) {
                 return true
             }
         } else {
-            pA = new Vector2D(0, sp + 12)
-            pB = new Vector2D(0, sp + h / 2 - 18)
-            pC = new Vector2D(0 + 69 / 3 - 2, sp + h / 8 + 18)
+            pA = new Vector2D(0 + sw, sp)
+            pB = new Vector2D(0 + sw, sp + sh)
+            pC = new Vector2D(0 + 2 * sw, sp + sh / 2)
             if (
                 this.collider.checkHitTriangle(new Vector2D(x, y), [pA, pB, pC]) ||
-                this.collider.checkHitTriangle(new Vector2D(x, y + this.getH() / 3.1), [pA, pB, pC]) ||
-                this.collider.checkHitTriangle(new Vector2D(x, (y + y + this.getH() / 3.1) / 2), [pA, pB, pC])
+                this.collider.checkHitTriangle(new Vector2D(x, y + h), [pA, pB, pC]) ||
+                this.collider.checkHitTriangle(new Vector2D(x, (y + y + h) / 2), [pA, pB, pC])
             )
                 return true
         }

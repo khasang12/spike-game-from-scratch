@@ -40,16 +40,16 @@ export default class GameCore {
         this.sceneManager.loadScene(startScene)
     }
 
-    public update(curTime: number, deltaTime: number) {
+    public update(deltaTime: number) {
         switch (this.state) {
             case GAME_STATUS.RUNNING:
                 for (const component of this.components) {
-                    if (component.getIsEnabled()) component.update(curTime, deltaTime)
+                    if (component.getIsEnabled()) component.update(deltaTime)
                 }
                 break
             case GAME_STATUS.PAUSE:
                 for (const component of this.components) {
-                    if (component.getIsEnabled()) component.pause(curTime, deltaTime)
+                    if (component.getIsEnabled()) component.pause(deltaTime)
                 }
                 break
         }

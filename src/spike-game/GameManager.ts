@@ -24,7 +24,7 @@ export default class SpikeGameManager {
         return this.score
     }
 
-    public updateCollision(): void {
+    public updateWallCollision(): void {
         game.sceneManager.getCurrentScene().update()
     }
 
@@ -50,8 +50,8 @@ export default class SpikeGameManager {
         }
         game.sceneManager.getCurrentScene().draw()
     }
-    public update(curTime: number, deltaTime: number) {
-        game.update(curTime, deltaTime)
+    public update(deltaTime: number) {
+        game.update(deltaTime)
     }
 }
 

@@ -3,7 +3,7 @@ import { spikeGame } from "./GameManager"
 function loop(lastTime: number): void {
     const curTime = Date.now()
     spikeGame.draw()
-    spikeGame.update(lastTime, curTime - lastTime)
+    spikeGame.update(curTime - lastTime)
     lastTime = Date.now()
     requestAnimationFrame(() => loop(lastTime))
 }

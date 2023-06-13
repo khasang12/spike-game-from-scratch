@@ -28,10 +28,11 @@ export default class Candy extends BaseGameObject {
             this.getW(),
             this.getH()
         )
+            
     }
     public update(spike: SideSpike): void {
         this.setY(spike.getY() - 20)
-        if (spike.getX()>300) this.setX(spike.getX() - 40)
+        if (spike.getX() > 300) this.setX(spike.getX() - 40)
         else this.setX(spike.getX() + 45)
     }
     public pause(): void {

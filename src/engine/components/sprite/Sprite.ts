@@ -19,11 +19,11 @@ export default class Sprite extends BaseComponent {
         if (this.gameObject.getIsEnabled()) this.gameObject.draw()
     }
 
-    public update(curTime: number, deltaTime: number): void {
+    public update(deltaTime: number): void {
         return
     }
 
-    public pause(curTime: number, deltaTime: number): void {
+    public pause(deltaTime: number): void {
         return
     }
 }

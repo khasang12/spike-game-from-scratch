@@ -38,7 +38,7 @@ export default class SideSpike extends BaseGameObject {
                 this.getH()
             )
     }
-    public update(lastTime: number, deltaTime: number): void {
+    public update(deltaTime: number): void {
         return
     }
     public pause(): void {

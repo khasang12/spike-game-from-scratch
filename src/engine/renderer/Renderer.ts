@@ -1,10 +1,12 @@
+import BaseGameObject from '../components/BaseGameObject'
 import BaseScene from '../scene/BaseScene'
 
 export default class Renderer {
     private static instance: Renderer
     private canvas: HTMLCanvasElement
     private ctx: CanvasRenderingContext2D
-    private depth: number
+    private readonly scene: BaseScene
+    private readonly depth: Map<BaseGameObject, number>
 
     protected constructor(canvas: HTMLCanvasElement) {
         this.canvas = canvas
@@ -16,6 +18,25 @@ export default class Renderer {
             Renderer.instance = new Renderer(canvas)
         }
         return Renderer.instance
+    }
+
+    public setDepth(object: BaseGameObject, depth: number) {
+        this.depth.set(object, depth)
+    }
+
+    public sortObjects() {
+        this.scene.getObjects().sort((a, b) => {
+            const depthA = this.depth.get(a) || 0
+            const depthB = this.depth.get(b) || 0
+            return depthA - depthB
+        })
+    }
+
+    public renderScene() {
+        this.sortObjects()
+        for (const object of this.scene.getObjects()) {
+            object.draw()
+        }
     }
 
     public clear(): void {
@@ -43,10 +64,8 @@ export default class Renderer {
 
     public drawText(text: string, x: number, y: number, color: string, size = 70): void {
         this.ctx.fillStyle = color
-        if (!size)
-            this.ctx.font = 'bold 70px Arial'
-        else
-            this.ctx.font = 'bold '+size+'px Arial'
+        if (!size) this.ctx.font = 'bold 70px Arial'
+        else this.ctx.font = 'bold ' + size + 'px Arial'
 
         if (text.length < 2) this.ctx.fillText(text, x, y)
         else if (text.length < 3) this.ctx.fillText(text, x - 20, y)
