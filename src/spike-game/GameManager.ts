@@ -24,7 +24,7 @@ export default class SpikeGameManager {
         return this.score
     }
 
-    public updateScore(): void {
+    public updateCollision(): void {
         game.sceneManager.getCurrentScene().update()
     }
 

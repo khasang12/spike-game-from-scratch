@@ -7,6 +7,7 @@ import Bird from '../bird/Bird'
 import BotSpike from '../obstacle/BotSpike'
 import Candy from '../obstacle/Candy'
 import SideSpike from '../obstacle/SideSpike'
+import SpikesController from '../obstacle/SpikesController'
 import TopSpike from '../obstacle/TopSpike'
 import GameScore from '../score/GameScore'
 
@@ -15,7 +16,7 @@ export default class GameScene extends BaseScene {
     private background: Background
     private topSpikes: TopSpike
     private botSpikes: BotSpike
-    private sideSpike: SideSpike
+    private sideSpikes: SpikesController
     private score: GameScore
     private candy: Candy
 
@@ -33,8 +34,20 @@ export default class GameScene extends BaseScene {
         this.bird = new Bird('Game', new Vector2D(0, 0))
         this.topSpikes = new TopSpike(new Vector2D(0, 0))
         this.botSpikes = new BotSpike(new Vector2D(0, 0))
-        this.sideSpike = new SideSpike(new Vector2D(0, 0))
+        this.sideSpikes = new SpikesController()
         this.candy = new Candy(new Vector2D(0, 0))
+    }
+
+    public getBird(): Bird {
+        return this.bird
+    }
+
+    public getCandy(): Candy {
+        return this.candy
+    }
+
+    public getSpikes(): SideSpike[] {
+        return this.sideSpikes.getSpikes()
     }
 
     public draw(): void {
@@ -46,6 +59,8 @@ export default class GameScene extends BaseScene {
 
     public update(): void {
         this.getScore().increaseScore()
+        this.sideSpikes.update()
+        this.candy.update(this.sideSpikes.getSpikes().slice(-1)[0])
     }
 
     public unload(): void {

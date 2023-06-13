@@ -45,19 +45,19 @@ export default class Collider extends BaseComponent {
         return false
     }
 
-    private checkHitTriangle(triangle: [Vector2D, Vector2D, Vector2D]): boolean {
+    public checkHitTriangle(point: Vector2D, triangle: [Vector2D, Vector2D, Vector2D]): boolean {
         // Compute the barycentric coordinates of the point with respect to the triangle
         const [v0, v1, v2] = triangle
         const denom =
             (v1.getY() - v2.getY()) * (v0.getX() - v2.getX()) +
             (v2.getX() - v1.getX()) * (v0.getY() - v2.getY())
         const barycentric1 =
-            ((v1.getY() - v2.getY()) * (this.gameObject.getX() - v2.getX()) +
-                (v2.getX() - v1.getX()) * (this.gameObject.getY() - v2.getY())) /
+            ((v1.getY() - v2.getY()) * (point.getX() - v2.getX()) +
+                (v2.getX() - v1.getX()) * (point.getY() - v2.getY())) /
             denom
         const barycentric2 =
-            ((v2.getY() - v0.getY()) * (this.gameObject.getX() - v2.getX()) +
-                (v0.getX() - v2.getX()) * (this.gameObject.getY() - v2.getY())) /
+            ((v2.getY() - v0.getY()) * (point.getX() - v2.getX()) +
+                (v0.getX() - v2.getX()) * (point.getY() - v2.getY())) /
             denom
         const barycentric3 = 1 - barycentric1 - barycentric2
 

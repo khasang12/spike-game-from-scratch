@@ -51,15 +51,15 @@ export default class GameScore extends BaseGameObject {
         renderer.drawImage(dttsString, 45, 75, 873 / 3.2, 240 / 3.2)
         renderer.drawImage(scoreImage, 45, 180, 230 / 0.85, 150)
 
-        const score = this.score + 3 * this.candyCount
+        const score = spikeGame.getScore().score + 3 * this.candyCount
         if (score < 10)
             renderer.drawText(spikeGame.getScore().score.toString(), 163, 235, 'white', 50)
         else if (score >= 10 && score < 100)
-            renderer.drawText(spikeGame.getScore().score.toString(), 158, 235, 'white', 50)
+            renderer.drawText(spikeGame.getScore().score.toString(), 167, 235, 'white', 50)
         else if (score >= 100)
-            renderer.drawText(spikeGame.getScore().score.toString(), 153, 235, 'white', 50)
+            renderer.drawText(spikeGame.getScore().score.toString(), 163, 235, 'white', 50)
 
-        renderer.drawImage(StringBEST, 74, 345, 614 / 3.2, 155 / 3.2)
+        renderer.drawImage(StringBEST, 74, 350, 614 / 3.2, 155 / 3.2)
         renderer.drawText(spikeGame.getScore().bestScore.toString(), 267, 370, '#aaa', 30)
         renderer.drawText(spikeGame.getScore().gamesPlayed.toString(), 267, 397, '#aaa', 30)
     }
@@ -85,14 +85,13 @@ export default class GameScore extends BaseGameObject {
         else if (this.score >= 100)
             renderer.drawText(
                 this.score.toString(),
-                CANVAS_WIDTH / 2,
+                CANVAS_WIDTH / 2 - 10,
                 CANVAS_HEIGHT / 2 + 18,
                 '#ababab'
             )
     }
 
     public draw(): void {
-        console.log(this.game.state)
         if (this.game.state === GAME_STATUS.READY) {
             this.drawStartScore()
         } else if (this.game.state === GAME_STATUS.RUNNING) {
@@ -105,6 +104,7 @@ export default class GameScore extends BaseGameObject {
     public update(lastTime: number, deltaTime: number): void {
         return
     }
+
     public pause(): void {
         return
     }

@@ -15,19 +15,28 @@ export default class SideSpike extends BaseGameObject {
         this.setW(69 / 3.2)
         this.setH(116 / 3.2)
         this.setX(CANVAS_WIDTH - 2)
-        this.setY(70)
+        this.setY(-70)
 
         this.sprite = new Sprite(this)
         this.sprite.setSpriteImg(spikeImage)
     }
     public draw(): void {
-        game.renderer.drawImage(
-            this.sprite.getSpriteImg(),
-            this.getX(),
-            this.getY(),
-            this.getW(),
-            this.getH()
-        )
+        if (this.getX() > 300)
+            game.renderer.drawImage(
+                this.sprite.getSpriteImg(),
+                this.getX(),
+                this.getY(),
+                this.getW(),
+                this.getH()
+            )
+        else
+            game.renderer.drawMirrorLRImage(
+                this.sprite.getSpriteImg(),
+                this.getX(),
+                this.getY(),
+                this.getW(),
+                this.getH()
+            )
     }
     public update(lastTime: number, deltaTime: number): void {
         return
