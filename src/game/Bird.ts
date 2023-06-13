@@ -25,6 +25,7 @@ export default class Bird extends BaseBird implements GameObject {
     }
 
     public draw() {
+        
         if (this.direction == DIRECTIONS.RIGHT)
             ctx.drawImage(
                 this.image,
