@@ -16,7 +16,7 @@ export class BaseBird {
             throw new Error("Abstract classes can't be instantiated.")
         }
     }
-    
+
     public getX() {
         return this.x
     }
@@ -47,5 +47,21 @@ export class BaseBird {
 
     public setDirection(a: number) {
         this.direction = a
+    }
+
+    public draw() {
+        alert('Not implemented')
+    }
+
+    public reset() {
+        alert('Not implemented')
+    }
+
+    public flap() {
+        alert('Not implemented')
+    }
+
+    public update(a: number) {
+        alert('Not implemented')
     }
 }

@@ -7,7 +7,7 @@
     "declaration": false,
     "skipLibCheck": true,
     "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": false,
+    "forceConsistentCasingInFileNames": true,
 
     "allowJs": true,
     "allowUnreachableCode": false,

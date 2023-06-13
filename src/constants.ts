@@ -1,3 +1,5 @@
+import MyCanvas from './engine/components/canvas/Canvas'
+
 export const CANVAS_WIDTH = 320
 export const CANVAS_HEIGHT = 480
 export const DIRECTIONS = {
@@ -10,5 +12,8 @@ export const STATES = {
     GAME: 2,
     OVER: 3,
 }
-export const canvas = <HTMLCanvasElement>document.getElementById('game')
+
+// Test GE - Canvas
+const myCanvas = MyCanvas.getInstance()
+export const canvas: HTMLCanvasElement = myCanvas.start(360, 480)
 export const ctx = <CanvasRenderingContext2D>canvas.getContext('2d')

@@ -1,12 +1,13 @@
-import { game } from "./game/GameManager"
-
+import { spikeGame } from "./GameManager"
 
 function loop(lastTime: number): void {
     const curTime = Date.now()
-    game.draw()
-    game.update(curTime - lastTime)
+    spikeGame.draw()
+    spikeGame.update(curTime - lastTime)
     lastTime = Date.now()
     requestAnimationFrame(() => loop(lastTime))
 }
+
+spikeGame.start()
 
 loop(Date.now())
