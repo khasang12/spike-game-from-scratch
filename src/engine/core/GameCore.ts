@@ -40,19 +40,37 @@ export default class GameCore {
         this.sceneManager.loadScene(startScene)
     }
 
-    public update(curTime: number, deltaTime: number) {
+    public draw() {
+        this.clearCanvas(this.canvas.getCanvas())
+        for (const component of this.components) {
+            if (component.getIsEnabled()) {
+                component.draw()
+            }
+        }
+    }
+
+    public update(deltaTime: number) {
         switch (this.state) {
             case GAME_STATUS.RUNNING:
                 for (const component of this.components) {
-                    if (component.getIsEnabled()) component.update(curTime, deltaTime)
+                    if (component.getIsEnabled()) component.update(deltaTime)
                 }
                 break
             case GAME_STATUS.PAUSE:
                 for (const component of this.components) {
-                    if (component.getIsEnabled()) component.pause(curTime, deltaTime)
+                    if (component.getIsEnabled()) component.pause(deltaTime)
                 }
                 break
         }
+    }
+
+    public clearCanvas(canvas: HTMLCanvasElement) {
+        const context = <CanvasRenderingContext2D>canvas.getContext('2d')
+        context.clearRect(0, 0, canvas.width, canvas.height)
+    }
+
+    public addComponent(component: BaseComponent) {
+        this.components.push(component)
     }
 
     public pause() {
@@ -65,24 +83,6 @@ export default class GameCore {
 
     public resume() {
         this.state = GAME_STATUS.RUNNING
-    }
-
-    public draw() {
-        this.clearCanvas(this.canvas.getCanvas())
-        for (const component of this.components) {
-            if (component.getIsEnabled()) {
-                component.draw()
-            }
-        }
-    }
-
-    public clearCanvas(canvas: HTMLCanvasElement) {
-        const context = <CanvasRenderingContext2D>canvas.getContext('2d')
-        context.clearRect(0, 0, canvas.width, canvas.height)
-    }
-
-    public addComponent(component: BaseComponent) {
-        this.components.push(component)
     }
 }
 

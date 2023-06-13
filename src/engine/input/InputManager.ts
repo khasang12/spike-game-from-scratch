@@ -1,3 +1,4 @@
+import { game } from '../core/GameCore'
 import { KEY_CODE, MOUSE_CODE } from '../utils/constants'
 
 export default class InputManager {
@@ -6,6 +7,7 @@ export default class InputManager {
     private readonly mouseCode: { [key: string]: number }
     private keyBindings: { [key: string]: { [key: string]: number } }
     private mouseBindings: string
+    private mousePosition: [number, number]
     private canvas: HTMLCanvasElement
 
     private constructor() {
@@ -32,6 +34,7 @@ export default class InputManager {
         document.addEventListener('keydown', (event) => this.handleKeyDown(event))
         document.addEventListener('keyup', (event) => this.handleKeyUp(event))
         document.addEventListener('click', (event) => this.handleClick(event))
+        document.addEventListener('mousemove', (event) => this.handleMouseMove(event))
     }
 
     private handleKeyDown(event: KeyboardEvent): void {
@@ -57,23 +60,34 @@ export default class InputManager {
         }
     }
 
-    public hasKeyDown(keyCode: number) {
+    public handleMouseMove(event: MouseEvent): void {
+        const rect = game.canvas.getCanvas().getBoundingClientRect()
+        const mouseX = event.clientX - rect.x
+        const mouseY = event.clientY - rect.y
+        this.mousePosition = [mouseX, mouseY]
+    }
+
+    public getMousePosition(): [number, number]{
+        return this.mousePosition
+    }
+
+    public hasKeyDown(keyCode: number): boolean {
         return this.keyBindings.keyDown[keyCode] == 1
     }
 
-    public hasKeyUp(keyCode: number) {
+    public hasKeyUp(keyCode: number): boolean {
         return this.keyBindings.keyDown[keyCode] == 1
     }
 
-    public hasKeyPress(keyCode: number) {
+    public hasKeyPress(keyCode: number): boolean {
         return this.keyBindings.keyDown[keyCode] == 1
     }
 
-    public hasMouseBinding(keyCode: string) {
+    public hasMouseBinding(keyCode: string): boolean {
         return this.mouseBindings === keyCode
     }
 
-    public removeMouseBinding() {
+    public removeMouseBinding(): void {
         this.mouseBindings = ''
     }
 }

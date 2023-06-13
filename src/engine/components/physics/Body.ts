@@ -10,13 +10,13 @@ export default class Body extends BaseComponent {
 
     constructor(gameObject: BaseGameObject) {
         super(gameObject)
-        this.gravity = 0.15
-        this.bounceRate = 5
-        this.force = new Vector2D(0, 0)
-        this.velocity = new Vector2D(3, 0)
+        this.gravity = 0.2
+        this.bounceRate = 3.5
+        this.force = new Vector2D(0.01, 0)
+        this.velocity = new Vector2D(2.5, 0)
     }
 
-    public update(lastTime: number, deltaTime: number) {
+    public update(deltaTime: number) {
         // vec(obj) += F
         this.velocity = Vector2D.add(
             this.velocity,

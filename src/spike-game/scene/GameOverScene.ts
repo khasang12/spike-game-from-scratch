@@ -1,4 +1,5 @@
 import { game } from '../../engine/core/GameCore'
+import Rectangle from '../../engine/renderer/Rectangle'
 import BaseScene from '../../engine/scene/BaseScene'
 import Vector2D from '../../engine/utils/Vector2D'
 import { GAME_STATUS } from '../../engine/utils/constants'
@@ -30,7 +31,11 @@ export default class GameOverScene extends BaseScene {
 
     public draw(): void {
         if (game.inputManager.hasMouseBinding('LEFT')) {
-            game.state = GAME_STATUS.READY
+            const [x, y] = game.inputManager.getMousePosition()
+            const isButtonClicked = Rectangle.isPointInRect(x, y, 50, 277, 262, 53)
+            if (isButtonClicked) {
+                game.state = GAME_STATUS.READY
+            }
         }
         game.inputManager.removeMouseBinding()
     }

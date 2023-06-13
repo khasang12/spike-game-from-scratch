@@ -23,7 +23,7 @@ export default abstract class BaseComponent extends BaseObject {
 
     public abstract draw(): void
 
-    public abstract update(curTime: number, deltaTime: number): void
+    public abstract update(deltaTime: number): void
 
-    public abstract pause(curTime: number, deltaTime: number): void
+    public abstract pause(deltaTime: number): void
 }

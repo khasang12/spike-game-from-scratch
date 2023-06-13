@@ -1,3 +1,4 @@
+import { game } from '../core/GameCore'
 import BaseScene from './BaseScene'
 
 export default class SceneManager {
@@ -27,6 +28,7 @@ export default class SceneManager {
         // Load the new scene
         this.currentScene = scene
         this.currentScene.load()
-        this.currentScene.draw()
+        game.renderer.setDepth(this.currentScene)
+        game.renderer.draw()
     }
 }

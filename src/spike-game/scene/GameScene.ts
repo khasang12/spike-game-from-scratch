@@ -1,3 +1,4 @@
+import Sound from '../../engine/components/sound/Sound'
 import { game } from '../../engine/core/GameCore'
 import BaseScene from '../../engine/scene/BaseScene'
 import Vector2D from '../../engine/utils/Vector2D'
@@ -19,6 +20,7 @@ export default class GameScene extends BaseScene {
     private sideSpikes: SpikesController
     private score: GameScore
     private candy: Candy
+    private sound: Sound
 
     constructor(canvas: HTMLCanvasElement) {
         super(canvas)
@@ -36,6 +38,8 @@ export default class GameScene extends BaseScene {
         this.botSpikes = new BotSpike(new Vector2D(0, 0))
         this.sideSpikes = new SpikesController()
         this.candy = new Candy(new Vector2D(0, 0))
+
+        this.bird.subscribeCollision()
     }
 
     public getBird(): Bird {
@@ -59,12 +63,13 @@ export default class GameScene extends BaseScene {
 
     public update(): void {
         this.getScore().increaseScore()
+        spikeGame.getScore().score = this.getScore().getScore()
         this.sideSpikes.update()
         this.candy.update(this.sideSpikes.getSpikes().slice(-1)[0])
     }
 
     public unload(): void {
-        spikeGame.getScore().score = this.getScore().getScore()
+        spikeGame.getScore().score = this.getScore().getScore() + 3 * this.getScore().getCandy()
         spikeGame.getScore().bestScore = Math.max(
             spikeGame.getScore().bestScore,
             spikeGame.getScore().score

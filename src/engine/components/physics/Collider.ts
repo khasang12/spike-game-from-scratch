@@ -68,50 +68,9 @@ export default class Collider extends BaseComponent {
     public checkHitRectangle = (obj2: BaseGameObject) => {
         const [bx, by] = [this.gameObject.getX(), this.gameObject.getY()]
         const [cx, cy, cw, ch] = [obj2.getX(), obj2.getY(), obj2.getW(), obj2.getH()]
-        if (
-            (bx >= cx && bx <= cx + cw - 90 && by >= cy - 20 && by <= cy + ch) ||
-            (bx >= CANVAS_WIDTH - cx + 180 &&
-                bx <= CANVAS_WIDTH - cx + 180 + cw &&
-                by >= cy - 20 &&
-                by <= cy + ch - 40)
-        ) {
+        if (Math.abs(cx - bx) <= cw && Math.abs(cy - by) <= ch) {
             return true
         }
         return false
-    }
-
-    // Debug: Draw Boundaries for Collision Detection
-    public drawBoundBox(ctx: CanvasRenderingContext2D, sp: number, spike: BaseGameObject) {
-        ctx.fillStyle = 'red'
-
-        ctx.fillRect(0, sp + 12, 4, -4)
-        ctx.fillRect(0, sp + spike.getH() / 2 - 18, 4, 4)
-        ctx.fillRect(0 + spike.getW() / 3 - 2, sp + spike.getH() / 8 + 18, 4, -4)
-
-        ctx.fillRect(CANVAS_WIDTH - 3, sp + spike.getH() / 2 - 18, 4, -4)
-        ctx.fillRect(CANVAS_WIDTH - 3, sp + 12, 4, 4)
-        ctx.fillRect(CANVAS_WIDTH - 3 - spike.getW() / 3.2, sp + spike.getH() / 8 + 18, 4, -4)
-
-        ctx.fillStyle = 'green'
-
-        ctx.fillRect(
-            this.gameObject.getX() + this.gameObject.getW() / 3.2,
-            this.gameObject.getY(),
-            4,
-            4
-        )
-        ctx.fillRect(
-            this.gameObject.getX() + this.gameObject.getW() / 3.2,
-            this.gameObject.getY() + this.gameObject.getH() / 3.1,
-            4,
-            -4
-        )
-        ctx.fillRect(this.gameObject.getX(), this.gameObject.getY(), 4, -4)
-        ctx.fillRect(
-            this.gameObject.getX(),
-            this.gameObject.getY() + this.gameObject.getH() / 3.1,
-            4,
-            4
-        )
     }
 }
