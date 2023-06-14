@@ -37,6 +37,7 @@ export default class Candy extends BaseGameObject implements Subscriber {
             this.getW(),
             this.getH()
         )
+            
     }
     public update(spike: SideSpike): void {
         this.setY(spike.getY() - 20)
