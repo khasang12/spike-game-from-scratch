@@ -1,5 +1,5 @@
 import BaseGameObject from '../../engine/components/BaseGameObject'
-import Sprite from '../../engine/components/sprite/Sprite'
+import Sprite from '../../engine/sprite/Sprite'
 import { game } from '../../engine/core/GameCore'
 import Vector2D from '../../engine/utils/Vector2D'
 import { Subscriber } from '../../types/subscriber'
@@ -22,7 +22,7 @@ export default class TopSpike extends BaseGameObject implements Subscriber {
         this.sprite.setSpriteImg(spikesImage)
     }
 
-    public draw(): void {
+    public render(): void {
         game.renderer.drawImage(
             this.sprite.getSpriteImg(),
             this.getX(),

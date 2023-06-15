@@ -1,14 +1,14 @@
 import BaseGameObject from '../../engine/components/BaseGameObject'
-import Oscillator from '../../engine/components/physics/Oscillator'
-import Sprite from '../../engine/components/sprite/Sprite'
+import Oscillator from '../player/Oscillator'
+import Sprite from '../../engine/sprite/Sprite'
 import { game } from '../../engine/core/GameCore'
 import Vector2D from '../../engine/utils/Vector2D'
-import { COLLISION_CODE } from '../../engine/utils/constants'
 import { Subscriber } from '../../types/subscriber'
 import { spikeGame } from '../GameManager'
 import { soundCandy } from '../game'
 import GameScene from '../scene/GameScene'
 import SideSpike from './SideSpike'
+import { COLLISION_CODE } from '../utils/constants'
 
 const spikeImage = new Image()
 spikeImage.src = 'assets/images/candy.png'
@@ -31,14 +31,15 @@ export default class Candy extends BaseGameObject implements Subscriber {
         this.oscillator = new Oscillator(this)
     }
 
-    public draw(): void {
-        game.renderer.drawImage(
-            this.sprite.getSpriteImg(),
-            this.getX(),
-            this.getY(),
-            this.getW(),
-            this.getH()
-        )
+    public render(): void {
+        if (this.getIsEnabled())
+            game.renderer.drawImage(
+                this.sprite.getSpriteImg(),
+                this.getX(),
+                this.getY(),
+                this.getW(),
+                this.getH()
+            )
     }
 
     public update(spike: SideSpike): void {

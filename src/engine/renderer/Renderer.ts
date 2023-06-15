@@ -36,16 +36,18 @@ export default class Renderer {
         this.depth.pop()
     }
 
+    // Command Pattern
+
     public drawRect(x: number, y: number, width: number, height: number, color: string): void {
-        Rectangle.draw(this.ctx, x, y, width, height, color)
+        new Rectangle(this.ctx, x, y, width, height, true, color)
     }
 
     public drawCircle(x: number, y: number, radius: number, color: string): void {
-        Circle.draw(this.ctx, x, y, radius, color)
+        new Circle (this.ctx, x, y, radius, color)
     }
 
     public drawText(text: string, x: number, y: number, color: string, size = 70): void {
-        Text.draw(this.ctx, text, x, y, color, size)
+        new Text(this.ctx, text, x, y, color, size)
     }
 
     public drawImage(
@@ -55,7 +57,7 @@ export default class Renderer {
         width: number,
         height: number
     ): void {
-        Image.draw(this.ctx, image, x, y, width, height, 1)
+        new Image(this.ctx, image, x, y, width, height, 1)
     }
 
     public drawMirrorLRImage(
@@ -65,6 +67,6 @@ export default class Renderer {
         width: number,
         height: number
     ): void {
-        Image.draw(this.ctx, image, x, y, width, height, -1)
+        new Image(this.ctx, image, x, y, width, height, -1)
     }
 }

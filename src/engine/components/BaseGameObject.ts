@@ -7,11 +7,11 @@ export default abstract class BaseGameObject extends BaseObject {
     private w: number
     private h: number
     private position: Vector2D
-    private components: { [key: string]: BaseComponent }
+    private components: BaseComponent[]
 
     constructor(pos = new Vector2D(0, 0)) {
         super()
-        this.components = {}
+        this.components = []
         this.position = pos
         this.game = game
     }
@@ -48,9 +48,10 @@ export default abstract class BaseGameObject extends BaseObject {
         this.setPosition(new Vector2D(this.getX(), y))
     }
 
-    public abstract draw(): void
+    public abstract render(): void
 
     public setToggleActive(active: boolean) {
+        // set all components from GameObject to "Active" Flag
         if (active && !this.isEnabled) {
             for (const key in this.components) {
                 this.components[key].setToggleActive(true)
@@ -73,14 +74,10 @@ export default abstract class BaseGameObject extends BaseObject {
     }
 
     public addComponent(component: BaseComponent) {
-        this.components[component.getName()] = component
+        this.components.push(component)
     }
 
-    public getComponent(name: string) {
-        return this.components[name]
-    }
-
-    public onCollision(event: number) {
+    public onCollision(_event: number) {
         throw new Error('Method not implemented.')
     }
 }

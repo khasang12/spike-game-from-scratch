@@ -27,9 +27,21 @@ export default class GameOverScene extends BaseScene {
         this.score = new GameScore(new Vector2D(0, 0))
         this.topSpikes = new TopSpike(new Vector2D(0, 0))
         this.botSpikes = new BotSpike(new Vector2D(0, 0))
+
+        this.addObject(this.background, 0)
+        this.addObject(this.score, 1)
+        this.addObject(this.topSpikes, 2)
+        this.addObject(this.botSpikes, 3)
     }
 
     public draw(): void {
+        this.update()
+        for (const [obj, _depth] of this.depths) {
+            obj.render()
+        }
+    }
+
+    public update(): void {
         if (game.inputManager.hasMouseBinding('LEFT')) {
             const [x, y] = game.inputManager.getMousePosition()
             const isButtonClicked = Rectangle.isPointInRect(x, y, 50, 277, 262, 53)
@@ -38,10 +50,6 @@ export default class GameOverScene extends BaseScene {
             }
         }
         game.inputManager.removeMouseBinding()
-    }
-
-    public update(): void {
-        return
     }
 
     public unload(): void {

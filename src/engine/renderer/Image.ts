@@ -1,28 +1,50 @@
-export default class Image {
-    public static draw(
+import { Renderable } from '../../types/renderable'
+
+export default class Image implements Renderable {
+    private ctx: CanvasRenderingContext2D
+    private image: HTMLImageElement
+    private x: number
+    private y: number
+    private width: number
+    private height: number
+    private direction: number
+
+    constructor(
         ctx: CanvasRenderingContext2D,
         image: HTMLImageElement,
         x: number,
         y: number,
         width: number,
         height: number,
-        direction: number
-    ): void {
-        if (direction == -1) {
-            Image.drawMirrorImage(ctx, image, x, y, width, height)
-        }
-        else {
-            Image.drawImage(ctx, image, x, y, width, height)
+        direction: number,
+        isDrawn = true
+    ) {
+        this.ctx = ctx
+        this.x = x
+        this.y = y
+        this.image = image
+        this.width = width
+        this.height = height
+        this.direction = direction
+
+        if (isDrawn) this.draw()
+    }
+
+    public draw(): void {
+        if (this.direction == -1) {
+            this.drawMirrorImage(this.ctx, this.image, this.x, this.y, this.width, this.height)
+        } else {
+            this.drawImage(this.ctx, this.image, this.x, this.y, this.width, this.height)
         }
     }
 
-    public static drawImage(
+    public drawImage(
         ctx: CanvasRenderingContext2D,
         image: HTMLImageElement,
         x: number,
         y: number,
-        width: number,
-        height: number
+        width?: number,
+        height?: number
     ): void {
         if (width && height) {
             ctx.drawImage(image, x, y, width, height)
@@ -31,7 +53,7 @@ export default class Image {
         }
     }
 
-    public static drawMirrorImage(
+    public drawMirrorImage(
         ctx: CanvasRenderingContext2D,
         image: HTMLImageElement,
         x: number,

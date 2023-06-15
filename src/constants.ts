@@ -1,4 +1,4 @@
-import MyCanvas from './engine/components/canvas/Canvas'
+import MyCanvas from './engine/canvas/Canvas'
 
 export const CANVAS_WIDTH = 320
 export const CANVAS_HEIGHT = 480

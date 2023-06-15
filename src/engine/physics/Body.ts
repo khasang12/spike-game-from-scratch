@@ -1,19 +1,17 @@
-import Vector2D from '../../utils/Vector2D'
-import BaseComponent from '../BaseComponent'
-import BaseGameObject from '../BaseGameObject'
+import Vector2D from '../utils/Vector2D'
+import BaseComponent from '../components/BaseComponent'
+import BaseGameObject from '../components/BaseGameObject'
 
 export default class Body extends BaseComponent {
     private gravity: number
-    private bounceRate: number
     private velocity: Vector2D
     private force: Vector2D
 
-    constructor(gameObject: BaseGameObject) {
+    constructor(gameObject: BaseGameObject, velocity = new Vector2D(0, 0)) {
         super(gameObject)
         this.gravity = 0.2
-        this.bounceRate = 3.5
         this.force = new Vector2D(0, 0)
-        this.velocity = new Vector2D(2.5, 0)
+        this.velocity = velocity
     }
 
     public update(deltaTime: number) {
@@ -31,20 +29,28 @@ export default class Body extends BaseComponent {
         )
     }
 
-    public jump() {
-        this.velocity.setY(-this.bounceRate)
+    public getVelocity(): Vector2D {
+        return this.velocity
     }
 
-    public changeDirection() {
-        this.velocity = Vector2D.mul(this.velocity, -1)
-        this.velocity.setY(-1)
+    public getVelocityX(): number {
+        return this.velocity.getX()
     }
 
-    public draw() {
+    public getVelocityY(): number {
+        return this.velocity.getY()
+    }
+
+    public setVelocity(velocity: Vector2D) {
+        this.velocity = velocity
+    }
+
+    public render() {
         return
     }
 
     public pause() {
-        return
+        this.gravity = 0
+        this.velocity = new Vector2D(0, 0)
     }
 }

@@ -1,25 +1,24 @@
 import BaseGameObject from '../../engine/components/BaseGameObject'
-import Body from '../../engine/components/physics/Body'
-import Collider from '../../engine/components/physics/Collider'
-import Oscillator from '../../engine/components/physics/Oscillator'
-import Sprite from '../../engine/components/sprite/Sprite'
+import Body from '../../engine/physics/Body'
+import Oscillator from './Oscillator'
+import Sprite from '../../engine/sprite/Sprite'
 import Vector2D from '../../engine/utils/Vector2D'
-import {
-    CANVAS_HEIGHT,
-    CANVAS_WIDTH,
-    COLLISION_CODE,
-    DIRECTIONS,
-} from '../../engine/utils/constants'
+import { CANVAS_HEIGHT, CANVAS_WIDTH, COLLISION_CODE, DIRECTIONS } from '../utils/constants'
 import { Subscriber } from '../../types/subscriber'
 import { spikeGame } from '../GameManager'
 import { soundCollide, soundFlap, soundSide } from '../game'
 import GameScene from '../scene/GameScene'
+import BirdCollider from './BirdCollider'
 import EventSystem from './EventSystem'
 
 const birdImage1 = new Image()
 birdImage1.src = 'assets/images/bird1_small.png'
 const birdImage2 = new Image()
 birdImage2.src = 'assets/images/bird2_small.png'
+const birdFood = new Image()
+birdFood.src = 'assets/images/bird_food.png'
+const birdDead = new Image()
+birdDead.src = 'assets/images/bird_dead.png'
 
 export default class Bird extends BaseGameObject implements Subscriber {
     public checkCandyCollided = false
@@ -27,7 +26,7 @@ export default class Bird extends BaseGameObject implements Subscriber {
     private sprite: Sprite
     private direction: number
     private physics: Body
-    private collider: Collider
+    private collider: BirdCollider
     private oscillator: Oscillator
     private eventSystem: EventSystem
 
@@ -48,8 +47,8 @@ export default class Bird extends BaseGameObject implements Subscriber {
 
         this.oscillator = new Oscillator(this)
 
-        this.physics = new Body(this)
-        this.collider = new Collider(this)
+        this.physics = new Body(this, new Vector2D(2.5, 0))
+        this.collider = new BirdCollider(this)
     }
 
     public subscribeCollision(): void {
@@ -59,29 +58,32 @@ export default class Bird extends BaseGameObject implements Subscriber {
         for (const spike of gameScene.getSpikes()) this.eventSystem.subscribe(spike)
     }
 
-    public draw(): void {
-        if (this.name == 'Game') {
-            const gameScene = <GameScene>spikeGame.game.sceneManager.getCurrentScene()
-            if (this.collider.checkOutOfBounds()) {
-                this.eventSystem.notify(COLLISION_CODE.TOP_BOT_SPIKE)
-            }
-            if (
-                this.collider.checkHitRectangle(gameScene.getCandy()) &&
-                gameScene.getCandy().getIsEnabled()
-            ) {
-                this.eventSystem.notify(COLLISION_CODE.CANDY)
-            }
-            for (const sp of gameScene.getSpikes()) {
-                if (this.checkHitSpike(sp.getY())) {
-                    this.eventSystem.notify(COLLISION_CODE.SIDE_SPIKE)
-                }
+    public async update(): Promise<void> {
+        const gameScene = <GameScene>spikeGame.game.sceneManager.getCurrentScene()
+        if (this.collider.checkOutOfBounds()) {
+            this.eventSystem.notify(COLLISION_CODE.TOP_BOT_SPIKE)
+        }
+        if (this.collider.checkHitCandy() && gameScene.getCandy().getIsEnabled()) {
+            this.eventSystem.notify(COLLISION_CODE.CANDY)
+            this.sprite.setSpriteImg(birdDead)
+        }
+        for (const sp of gameScene.getSpikes()) {
+            if (this.collider.checkHitSpike(this.direction, sp.getY())) {
+                this.sprite.setSpriteImg(birdDead)
+                soundCollide.play()
+                await new Promise((resolve) => {
+                    setTimeout(resolve, 500)
+                    this.physics.pause()
+                })
+                this.eventSystem.notify(COLLISION_CODE.SIDE_SPIKE)
             }
         }
-        this.handleChangeDirection()
-        this.sprite.setSpriteImg(birdImage2)
     }
 
-    private handleChangeDirection() {
+    public render(): void {
+        if (spikeGame.game.sceneManager.getCurrentScene() instanceof GameScene) {
+            this.update()
+        }
         if (this.direction == DIRECTIONS.RIGHT) {
             spikeGame.game.renderer.drawImage(
                 this.sprite.getSpriteImg(),
@@ -90,11 +92,7 @@ export default class Bird extends BaseGameObject implements Subscriber {
                 this.getW(),
                 this.getH()
             )
-            if (this.collider.checkWallCollision(this.direction) && this.name == 'Game') {
-                this.direction = DIRECTIONS.LEFT
-                this.eventSystem.notify(COLLISION_CODE.WALL)
-            }
-        } else if (this.direction == DIRECTIONS.LEFT) {
+        } else {
             spikeGame.game.renderer.drawMirrorLRImage(
                 this.sprite.getSpriteImg(),
                 this.getX(),
@@ -102,7 +100,19 @@ export default class Bird extends BaseGameObject implements Subscriber {
                 this.getW(),
                 this.getH()
             )
-            if (this.collider.checkWallCollision(this.direction) && this.name == 'Game') {
+        }
+        this.checkChangeDirection()
+        this.sprite.setSpriteImg(birdImage2)
+    }
+
+    private checkChangeDirection() {
+        if (this.direction == DIRECTIONS.RIGHT) {
+            if (this.collider.checkWallCollision(this.direction)) {
+                this.direction = DIRECTIONS.LEFT
+                this.eventSystem.notify(COLLISION_CODE.WALL)
+            }
+        } else if (this.direction == DIRECTIONS.LEFT) {
+            if (this.collider.checkWallCollision(this.direction)) {
                 this.direction = DIRECTIONS.RIGHT
                 this.eventSystem.notify(COLLISION_CODE.WALL)
             }
@@ -110,45 +120,19 @@ export default class Bird extends BaseGameObject implements Subscriber {
     }
 
     private enableCandy() {
-        if (this.name == 'Game') {
-            const gameScene = <GameScene>spikeGame.game.sceneManager.getCurrentScene()
-            if (!gameScene.getCandy().getIsEnabled()) gameScene.getCandy().setToggleActive(true)
-        }
+        const gameScene = <GameScene>spikeGame.game.sceneManager.getCurrentScene()
+        if (!gameScene.getCandy().getIsEnabled()) gameScene.getCandy().setToggleActive(true)
     }
 
-    public flap = () => {
+    public flap = (bounceRate: number) => {
         soundFlap.play()
         this.sprite.setSpriteImg(birdImage1)
-        this.physics.jump()
+        this.physics.setVelocity(new Vector2D(this.physics.getVelocityX(), -bounceRate))
     }
 
-    public checkHitSpike = (sp: number) => {
-        const [x, y, w, h] = [this.getX(), this.getY(), this.getW(), this.getH()]
-        const [sw, sh] = [69 / 3.2, 116 / 3.2]
-        let pA: Vector2D, pB: Vector2D, pC: Vector2D
-        if (this.direction == DIRECTIONS.RIGHT) {
-            pA = new Vector2D(CANVAS_WIDTH - 3 - sw, sp)
-            pB = new Vector2D(CANVAS_WIDTH - 3 - 2 * sw, sp + sh / 2)
-            pC = new Vector2D(CANVAS_WIDTH - 3 - sw, sp + sh)
-            if (
-                this.collider.checkHitTriangle(new Vector2D(x + this.getW(), y), [pA, pB, pC]) ||
-                this.collider.checkHitTriangle(new Vector2D(x + w, y + h), [pA, pB, pC]) ||
-                this.collider.checkHitTriangle(new Vector2D(x + w, (y + y + h) / 2), [pA, pB, pC])
-            ) {
-                return true
-            }
-        } else {
-            pA = new Vector2D(0 + sw, sp)
-            pB = new Vector2D(0 + sw, sp + sh)
-            pC = new Vector2D(0 + 2 * sw, sp + sh / 2)
-            if (
-                this.collider.checkHitTriangle(new Vector2D(x, y), [pA, pB, pC]) ||
-                this.collider.checkHitTriangle(new Vector2D(x, y + h), [pA, pB, pC]) ||
-                this.collider.checkHitTriangle(new Vector2D(x, (y + y + h) / 2), [pA, pB, pC])
-            )
-                return true
-        }
-        return false
+    public changeDirection() {
+        this.physics.setVelocity(Vector2D.mul(this.physics.getVelocity(), -1))
+        this.physics.setVelocity(new Vector2D(this.physics.getVelocityX(), -1))
     }
 
     public onCollision(event: number): void {
@@ -157,7 +141,7 @@ export default class Bird extends BaseGameObject implements Subscriber {
             spikeGame.game.over()
         } else if (event == COLLISION_CODE.WALL) {
             soundSide.play()
-            this.physics.changeDirection()
+            this.changeDirection()
             spikeGame.updateWallCollision()
             this.enableCandy()
         }

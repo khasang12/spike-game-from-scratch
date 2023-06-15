@@ -1,6 +1,6 @@
 import { CANVAS_HEIGHT, CANVAS_WIDTH } from '../../constants'
 import BaseGameObject from '../../engine/components/BaseGameObject'
-import Sprite from '../../engine/components/sprite/Sprite'
+import Sprite from '../../engine/sprite/Sprite'
 import Vector2D from '../../engine/utils/Vector2D'
 
 const bgImage = new Image()
@@ -21,7 +21,7 @@ export default class Background extends BaseGameObject {
         this.sprite.setSpriteImg(bgImage)
     }
 
-    public draw(): void {
+    public render(): void {
         this.game.renderer.drawImage(
             bgImage,
             this.getX() - this.getW() / 2,

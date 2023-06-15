@@ -1,6 +1,6 @@
-import Vector2D from '../../utils/Vector2D'
-import BaseComponent from '../BaseComponent'
-import BaseGameObject from '../BaseGameObject'
+import Vector2D from '../../engine/utils/Vector2D'
+import BaseComponent from '../../engine/components/BaseComponent'
+import BaseGameObject from '../../engine/components/BaseGameObject'
 
 export default class Oscillator extends BaseComponent {
     private freq: number
@@ -27,14 +27,14 @@ export default class Oscillator extends BaseComponent {
         )
     }
 
-    public reset(){
+    public reset() {
         this.freq = 980
         this.amplitude = 0.5
         this.phase = 0
         this.velocity = new Vector2D(0, this.amplitude)
     }
 
-    public draw() {
+    public render() {
         return
     }
 

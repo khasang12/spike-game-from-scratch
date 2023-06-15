@@ -1,13 +1,12 @@
 import { CANVAS_WIDTH } from '../../constants'
 import BaseGameObject from '../../engine/components/BaseGameObject'
-import Oscillator from '../../engine/components/physics/Oscillator'
-import Sprite from '../../engine/components/sprite/Sprite'
+import Oscillator from '../player/Oscillator'
+import Sprite from '../../engine/sprite/Sprite'
 import { game } from '../../engine/core/GameCore'
 import Vector2D from '../../engine/utils/Vector2D'
-import { COLLISION_CODE } from '../../engine/utils/constants'
+import { COLLISION_CODE } from '../utils/constants'
 import { Subscriber } from '../../types/subscriber'
 import { spikeGame } from '../GameManager'
-import { soundCollide } from '../game'
 
 const spikeImage = new Image()
 spikeImage.src = 'assets/images/spike_small.png'
@@ -30,8 +29,8 @@ export default class SideSpike extends BaseGameObject implements Subscriber {
         this.sprite.setSpriteImg(spikeImage)
     }
 
-    public draw(): void {
-        if (this.getX() > 300)
+    public render(): void {
+        if (this.getX() > 300) {
             game.renderer.drawImage(
                 this.sprite.getSpriteImg(),
                 this.getX(),
@@ -39,7 +38,7 @@ export default class SideSpike extends BaseGameObject implements Subscriber {
                 this.getW(),
                 this.getH()
             )
-        else
+        } else
             game.renderer.drawMirrorLRImage(
                 this.sprite.getSpriteImg(),
                 this.getX(),
@@ -49,7 +48,7 @@ export default class SideSpike extends BaseGameObject implements Subscriber {
             )
     }
 
-    public update(deltaTime: number): void {
+    public update(_deltaTime: number): void {
         this.physics.reset()
     }
 
@@ -59,7 +58,6 @@ export default class SideSpike extends BaseGameObject implements Subscriber {
 
     public onCollision(event: number) {
         if (event == COLLISION_CODE.SIDE_SPIKE) {
-            soundCollide.play()
             spikeGame.game.over()
         }
     }

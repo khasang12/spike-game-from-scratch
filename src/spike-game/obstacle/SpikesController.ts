@@ -1,7 +1,7 @@
 import SideSpike from './SideSpike'
 import Vector2D from '../../engine/utils/Vector2D'
 import { spikeGame } from '../GameManager'
-import Sprite from '../../engine/components/sprite/Sprite'
+import Sprite from '../../engine/sprite/Sprite'
 import BaseGameObject from '../../engine/components/BaseGameObject'
 
 export default class SpikesController extends BaseGameObject {
@@ -34,9 +34,9 @@ export default class SpikesController extends BaseGameObject {
         return this.spikes
     }
 
-    public draw() {
+    public render() {
         for (let i = 0; i < this.length; i++) {
-            this.spikes[i].draw()
+            this.spikes[i].render()
         }
     }
 

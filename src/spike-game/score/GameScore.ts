@@ -1,6 +1,6 @@
 import { CANVAS_HEIGHT, CANVAS_WIDTH } from '../../constants'
 import BaseGameObject from '../../engine/components/BaseGameObject'
-import Sprite from '../../engine/components/sprite/Sprite'
+import Sprite from '../../engine/sprite/Sprite'
 import Vector2D from '../../engine/utils/Vector2D'
 import { GAME_STATUS } from '../../engine/utils/constants'
 import { spikeGame } from '../GameManager'
@@ -91,7 +91,7 @@ export default class GameScore extends BaseGameObject {
             )
     }
 
-    public draw(): void {
+    public render(): void {
         if (this.game.state === GAME_STATUS.READY) {
             this.drawStartScore()
         } else if (this.game.state === GAME_STATUS.RUNNING) {

@@ -1,4 +1,4 @@
-import BaseCanvas from '../components/canvas/Canvas'
+import BaseCanvas from '../canvas/Canvas'
 import BaseComponent from '../components/BaseComponent'
 import InputManager from '../input/InputManager'
 import { GAME_STATUS } from '../utils/constants'
@@ -15,36 +15,26 @@ export default class GameCore {
     public renderer: Renderer
     public canvas: BaseCanvas
 
-    private constructor() {
-        if (GameCore.instance != null) {
-            return GameCore.instance
-        }
+    constructor() {
         this.state = GAME_STATUS.READY
         this.canvas = BaseCanvas.getInstance()
         this.inputManager = InputManager.getInstance()
         this.sceneManager = SceneManager.getInstance()
         this.renderer = Renderer.getInstance(this.canvas.getCanvas())
-        GameCore.instance = this
-    }
-
-    public static getInstance() {
-        if (GameCore.instance == null) {
-            GameCore.instance = new GameCore()
-        }
-        return GameCore.instance
     }
 
     public start(w: number, h: number, startScene: BaseScene) {
         this.canvas.start(w, h)
         this.inputManager.start()
         this.sceneManager.loadScene(startScene)
+        requestAnimationFrame(() => this.update(Date.now()))
     }
 
     public draw() {
         this.clearCanvas(this.canvas.getCanvas())
         for (const component of this.components) {
             if (component.getIsEnabled()) {
-                component.draw()
+                component.render()
             }
         }
     }
@@ -62,6 +52,7 @@ export default class GameCore {
                 }
                 break
         }
+        this.draw()
     }
 
     public clearCanvas(canvas: HTMLCanvasElement) {
@@ -86,4 +77,4 @@ export default class GameCore {
     }
 }
 
-export const game = GameCore.getInstance()
+export const game = new GameCore()
