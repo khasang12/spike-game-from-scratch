@@ -21,30 +21,12 @@ export default abstract class BaseObject {
     public setToggleActive(isActive: boolean) {
         if (isActive && !this.isEnabled) {
             this.isEnabled = true
-            this.onEnable()
         } else if (!isActive && this.isEnabled) {
             this.isEnabled = false
-            this.onDisable()
         }
     }
 
-    public pauseGame() {
-        this.game.pause()
-    }
-
-    public resumeGame() {
-        this.game.resume()
-    }
-
     public reset(): void {
-        return
-    }
-
-    public onEnable(): void {
-        return
-    }
-
-    public onDisable(): void {
         return
     }
 }

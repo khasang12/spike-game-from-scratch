@@ -50,7 +50,7 @@ export default class SideSpike extends BaseGameObject implements Subscriber {
     }
 
     public update(deltaTime: number): void {
-        return
+        this.physics.reset()
     }
 
     public pause(): void {

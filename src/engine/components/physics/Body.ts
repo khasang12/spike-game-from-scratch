@@ -12,7 +12,7 @@ export default class Body extends BaseComponent {
         super(gameObject)
         this.gravity = 0.2
         this.bounceRate = 3.5
-        this.force = new Vector2D(0.01, 0)
+        this.force = new Vector2D(0, 0)
         this.velocity = new Vector2D(2.5, 0)
     }
 

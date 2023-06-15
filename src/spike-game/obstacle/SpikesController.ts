@@ -8,6 +8,7 @@ export default class SpikesController extends BaseGameObject {
     private length: number
     private spikes: SideSpike[]
     private sprite: Sprite
+
     constructor() {
         super()
         this.length = 3
@@ -41,9 +42,11 @@ export default class SpikesController extends BaseGameObject {
 
     public update() {
         if (spikeGame.getScore().score > 0 && spikeGame.getScore().score % 5 === 0) {
-            console.log(1111)
             this.spikes.push(new SideSpike(new Vector2D(0, 0)))
             this.length++
+            for (let i = 0; i < this.length; i++) {
+                this.spikes[i].update(0)
+            }
         }
 
         const bucketSize = (380 - 90) / this.length

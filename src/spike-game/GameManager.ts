@@ -51,6 +51,7 @@ export default class SpikeGameManager {
         }
         game.sceneManager.getCurrentScene().draw()
     }
+
     public update(deltaTime: number) {
         game.update(deltaTime)
     }

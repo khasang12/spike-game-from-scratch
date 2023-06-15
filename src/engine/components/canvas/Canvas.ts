@@ -35,7 +35,7 @@ export default class BaseCanvas {
     public start(w: number, h: number): HTMLCanvasElement {
         this.canvas.width = w
         this.canvas.height = h
-        document.body.insertBefore(this.canvas, document.body.childNodes[2])
+        document.body.insertBefore(this.canvas, document.body.childNodes[1])
         return this.canvas
     }
 }

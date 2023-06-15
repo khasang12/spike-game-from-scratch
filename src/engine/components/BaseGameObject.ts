@@ -4,13 +4,9 @@ import BaseComponent from './BaseComponent'
 import BaseObject from './BaseObject'
 
 export default abstract class BaseGameObject extends BaseObject {
-    onCollision(event: number) {
-        throw new Error("Method not implemented.")
-    }
-    private initPosition: Vector2D // Position on canvas
-    private position: Vector2D // Position on canvas
     private w: number
     private h: number
+    private position: Vector2D
     private components: { [key: string]: BaseComponent }
 
     constructor(pos = new Vector2D(0, 0)) {
@@ -60,13 +56,11 @@ export default abstract class BaseGameObject extends BaseObject {
                 this.components[key].setToggleActive(true)
             }
             this.isEnabled = true
-            this.onEnable()
         } else if (!active && this.isEnabled) {
             for (const key in this.components) {
                 this.components[key].setToggleActive(true)
             }
             this.isEnabled = false
-            this.onDisable()
         }
     }
 
@@ -84,5 +78,9 @@ export default abstract class BaseGameObject extends BaseObject {
 
     public getComponent(name: string) {
         return this.components[name]
+    }
+
+    public onCollision(event: number) {
+        throw new Error('Method not implemented.')
     }
 }

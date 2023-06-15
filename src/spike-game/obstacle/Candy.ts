@@ -16,6 +16,7 @@ spikeImage.src = 'assets/images/candy.png'
 export default class Candy extends BaseGameObject implements Subscriber {
     private sprite: Sprite
     private oscillator: Oscillator
+
     constructor(pos: Vector2D) {
         super(pos)
 
@@ -29,6 +30,7 @@ export default class Candy extends BaseGameObject implements Subscriber {
 
         this.oscillator = new Oscillator(this)
     }
+
     public draw(): void {
         game.renderer.drawImage(
             this.sprite.getSpriteImg(),
@@ -37,13 +39,14 @@ export default class Candy extends BaseGameObject implements Subscriber {
             this.getW(),
             this.getH()
         )
-            
     }
+
     public update(spike: SideSpike): void {
         this.setY(spike.getY() - 20)
         if (spike.getX() > 300) this.setX(spike.getX() - 40)
         else this.setX(spike.getX() + 45)
     }
+
     public pause(): void {
         return
     }

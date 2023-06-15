@@ -8,6 +8,7 @@ bgImage.src = 'assets/images/background.png'
 
 export default class Background extends BaseGameObject {
     private sprite: Sprite
+
     constructor(pos: Vector2D) {
         super(pos)
 
@@ -19,6 +20,7 @@ export default class Background extends BaseGameObject {
         this.sprite = new Sprite(this)
         this.sprite.setSpriteImg(bgImage)
     }
+
     public draw(): void {
         this.game.renderer.drawImage(
             bgImage,
@@ -28,9 +30,11 @@ export default class Background extends BaseGameObject {
             this.getH()
         )
     }
-    public update(lastTime: number, deltaTime: number): void {
+
+    public update(deltaTime: number): void {
         return
     }
+
     public pause(): void {
         return
     }

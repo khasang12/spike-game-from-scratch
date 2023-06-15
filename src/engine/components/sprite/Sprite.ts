@@ -3,6 +3,7 @@ import BaseGameObject from '../BaseGameObject'
 
 export default class Sprite extends BaseComponent {
     private image: HTMLImageElement
+
     constructor(gameObject: BaseGameObject) {
         super(gameObject)
     }

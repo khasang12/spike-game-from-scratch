@@ -42,8 +42,8 @@ export default class GameScore extends BaseGameObject {
         renderer.drawImage(dttsString, 45, 75, 873 / 3.2, 240 / 3.2)
         renderer.drawImage(hitString, 125, 170, 111, 57)
         renderer.drawImage(StringBEST, 70, 327, 614 / 3.2, 155 / 3.2)
-        renderer.drawText(spikeGame.getScore().bestScore.toString(), 287, 350, '#ababab', 30)
-        renderer.drawText(spikeGame.getScore().gamesPlayed.toString(), 287, 377, '#ababab', 30)
+        renderer.drawText(spikeGame.getScore().bestScore.toString(), 287, 350, '#aaa', 30)
+        renderer.drawText(spikeGame.getScore().gamesPlayed.toString(), 287, 377, '#aaa', 30)
     }
 
     private drawEndScore(): void {
