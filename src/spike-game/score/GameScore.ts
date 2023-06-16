@@ -101,7 +101,7 @@ export default class GameScore extends BaseGameObject {
         }
     }
 
-    public update(lastTime: number, deltaTime: number): void {
+    public update(deltaTime: number): void {
         return
     }
 

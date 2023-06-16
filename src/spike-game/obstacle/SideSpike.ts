@@ -1,6 +1,6 @@
 import { CANVAS_WIDTH } from '../../constants'
 import BaseGameObject from '../../engine/components/BaseGameObject'
-import Oscillator from '../player/Oscillator'
+import Oscillator from './Oscillator'
 import Sprite from '../../engine/sprite/Sprite'
 import { game } from '../../engine/core/GameCore'
 import Vector2D from '../../engine/utils/Vector2D'
@@ -48,8 +48,8 @@ export default class SideSpike extends BaseGameObject implements Subscriber {
             )
     }
 
-    public update(_deltaTime: number): void {
-        this.physics.reset()
+    public update(deltaTime: number): void {
+        this.physics.update(deltaTime)
     }
 
     public pause(): void {

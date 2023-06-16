@@ -32,9 +32,9 @@ export default class Collider extends BaseComponent {
         }
     }
 
-    private checkHitRectangle = (obj2: Rectangle) => {
+    private checkHitRectangle = (rectangle: Rectangle) => {
         const [bx, by] = [this.gameObject.getX(), this.gameObject.getY()]
-        const [cx, cy, cw, ch] = [obj2.getX(), obj2.getY(), obj2.getW(), obj2.getH()]
+        const [cx, cy, cw, ch] = [rectangle.getX(), rectangle.getY(), rectangle.getW(), rectangle.getH()]
         if (Math.abs(cx - bx) <= cw && Math.abs(cy - by) <= ch) {
             return true
         }

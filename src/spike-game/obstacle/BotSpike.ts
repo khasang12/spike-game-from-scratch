@@ -33,7 +33,7 @@ export default class BotSpike extends BaseGameObject implements Subscriber {
         )
     }
 
-    public update(lastTime: number, deltaTime: number): void {
+    public update(deltaTime: number): void {
         return
     }
 

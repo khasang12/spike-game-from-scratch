@@ -61,15 +61,17 @@ export default class GameScene extends BaseScene {
     }
 
     public draw(): void {
-        this.update()
         for (const [obj, _depth] of this.depths) {
             obj.render()
         }
     }
 
-    public update(): void {
-        if (game.inputManager.hasMouseBinding('LEFT')) {
-            this.bird.flap(3.5)
+    public update(deltaTime: number): void {
+        for (const [obj, _depth] of this.depths) {
+            obj.update(deltaTime)
+        }
+        if (game.inputManager.hasMouseBinding('LEFT') && this.bird.getIsEnabled()) {
+            this.bird.flap(4)
         }
         game.inputManager.removeMouseBinding()
     }
@@ -86,9 +88,8 @@ export default class GameScene extends BaseScene {
     }
 
     public updateScore(): void {
+        this.candy.updateCandyPosBySpike(this.sideSpikes.getSpikes().slice(-1)[0])
         this.getScore().increaseScore()
         spikeGame.getScore().score = this.getScore().getScore()
-        this.sideSpikes.update()
-        this.candy.update(this.sideSpikes.getSpikes().slice(-1)[0])
     }
 }

@@ -4,6 +4,7 @@ export default abstract class BaseScene {
     protected readonly canvas: HTMLCanvasElement
     protected readonly context: CanvasRenderingContext2D
     protected depths: Map<BaseGameObject, number>
+    protected deltaTime: number
 
     constructor(canvas: HTMLCanvasElement) {
         this.canvas = canvas
@@ -24,8 +25,19 @@ export default abstract class BaseScene {
         return this.depths
     }
 
+    public update(deltaTime: number) {
+        for (const [object, _depth] of this.depths) {
+            if (object.getIsEnabled()) object.update(deltaTime)
+        }
+    }
+
+    public pause(deltaTime: number) {
+        for (const [object, _depth] of this.depths) {
+            if (object.getIsEnabled()) object.pause(deltaTime)
+        }
+    }
+
     public abstract load(): void
     public abstract draw(): void
-    public abstract update(): void
     public abstract unload(): void
 }

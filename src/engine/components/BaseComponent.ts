@@ -6,11 +6,9 @@ export default abstract class BaseComponent extends BaseObject {
     protected name: string
     protected gameObject: BaseGameObject
     protected game: GameCore
+    
     constructor(gameObject: BaseGameObject) {
         super()
-        // GameCore contains N GameObjects
-        this.game.addComponent(this)
-        // GameObject contains N Components
         this.gameObject = gameObject
         this.gameObject.addComponent(this)
     }

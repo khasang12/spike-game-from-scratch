@@ -16,7 +16,6 @@ export default class InputManager {
         this.keyBindings = {
             keyDown: {},
             keyUp: {},
-            keyPress: {},
         }
         this.mouseBindings = ''
     }
@@ -40,14 +39,13 @@ export default class InputManager {
     private handleKeyDown(event: KeyboardEvent): void {
         if (!this.keyCode[event.key]) {
             this.keyBindings.keyDown[event.key] = 1
-            this.keyBindings.keyPress[event.key] = 1
         }
         delete this.keyBindings.keyUp[event.key]
     }
 
     private handleKeyUp(event: KeyboardEvent): void {
         this.keyBindings.keyUp[event.key] = 1
-        delete this.keyBindings.keyPress[event.key]
+        delete this.keyBindings.keyDown[event.key]
     }
 
     private handleClick(event: MouseEvent): void {

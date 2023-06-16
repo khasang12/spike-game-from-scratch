@@ -18,6 +18,10 @@ export default abstract class BaseObject {
         return this.isEnabled
     }
 
+    public getIsActive(): boolean {
+        return this.isActive
+    }
+
     public setToggleActive(isActive: boolean) {
         if (isActive && !this.isEnabled) {
             this.isEnabled = true

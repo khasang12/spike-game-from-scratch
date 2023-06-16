@@ -48,8 +48,6 @@ export default abstract class BaseGameObject extends BaseObject {
         this.setPosition(new Vector2D(this.getX(), y))
     }
 
-    public abstract render(): void
-
     public setToggleActive(active: boolean) {
         // set all components from GameObject to "Active" Flag
         if (active && !this.isEnabled) {
@@ -80,4 +78,10 @@ export default abstract class BaseGameObject extends BaseObject {
     public onCollision(_event: number) {
         throw new Error('Method not implemented.')
     }
+
+    public abstract render(): void
+
+    public abstract update(deltaTime: number): void
+
+    public abstract pause(deltaTime: number): void
 }

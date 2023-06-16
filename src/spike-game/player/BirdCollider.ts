@@ -9,6 +9,7 @@ import GameScene from '../scene/GameScene'
 
 export default class BirdCollider extends Collider {
     private collider: Collider
+
     constructor(gameObject: BaseGameObject) {
         super(gameObject)
         this.collider = new Collider(gameObject)
