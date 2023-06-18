@@ -69,7 +69,6 @@ export default class SpikesController extends BaseGameObject {
                 this.spikes[i].setY(random_y)
                 if (this.spikes[i].getX() > 300) this.spikes[i].setX(-3)
                 else this.spikes[i].setX(318)
-                console.log(this.spikes[i].getY())
             }
         }
     }

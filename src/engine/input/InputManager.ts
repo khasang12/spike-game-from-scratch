@@ -5,10 +5,9 @@ export default class InputManager {
     private static instance: InputManager
     private readonly keyCode: { [key: string]: number }
     private readonly mouseCode: { [key: string]: number }
-    private keyBindings: { [key: string]: { [key: string]: number } }
+    private keyBindings: { [key: string]: { [key: string]: boolean } }
     private mouseBindings: string
     private mousePosition: [number, number]
-    private canvas: HTMLCanvasElement
 
     private constructor() {
         this.keyCode = KEY_CODE
@@ -38,13 +37,13 @@ export default class InputManager {
 
     private handleKeyDown(event: KeyboardEvent): void {
         if (!this.keyCode[event.key]) {
-            this.keyBindings.keyDown[event.key] = 1
+            this.keyBindings.keyDown[event.key] = true
         }
         delete this.keyBindings.keyUp[event.key]
     }
 
     private handleKeyUp(event: KeyboardEvent): void {
-        this.keyBindings.keyUp[event.key] = 1
+        this.keyBindings.keyUp[event.key] = true
         delete this.keyBindings.keyDown[event.key]
     }
 
@@ -70,15 +69,15 @@ export default class InputManager {
     }
 
     public hasKeyDown(keyCode: number): boolean {
-        return this.keyBindings.keyDown[keyCode] == 1
+        return this.keyBindings.keyDown[keyCode] == true
     }
 
     public hasKeyUp(keyCode: number): boolean {
-        return this.keyBindings.keyDown[keyCode] == 1
+        return this.keyBindings.keyDown[keyCode] == true
     }
 
     public hasKeyPress(keyCode: number): boolean {
-        return this.keyBindings.keyDown[keyCode] == 1
+        return this.keyBindings.keyDown[keyCode] == true
     }
 
     public hasMouseBinding(keyCode: string): boolean {
