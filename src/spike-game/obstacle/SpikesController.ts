@@ -1,13 +1,17 @@
 import SideSpike from './SideSpike'
 import Vector2D from '../../engine/utils/Vector2D'
 import { spikeGame } from '../GameManager'
-import Sprite from '../../engine/components/sprite/Sprite'
+import Sprite from '../../engine/sprite/Sprite'
 import BaseGameObject from '../../engine/components/BaseGameObject'
+import GameScene from '../scene/GameScene'
+import { DIRECTIONS } from '../../constants'
 
 export default class SpikesController extends BaseGameObject {
     private length: number
     private spikes: SideSpike[]
     private sprite: Sprite
+    private spikeDirection: number = DIRECTIONS.RIGHT
+
     constructor() {
         super()
         this.length = 3
@@ -33,24 +37,35 @@ export default class SpikesController extends BaseGameObject {
         return this.spikes
     }
 
-    public draw() {
+    public render() {
         for (let i = 0; i < this.length; i++) {
-            this.spikes[i].draw()
+            this.spikes[i].render()
         }
     }
 
-    public update() {
-        if (spikeGame.getScore().score > 0 && spikeGame.getScore().score % 5 === 0) {
-            console.log(1111)
-            this.spikes.push(new SideSpike(new Vector2D(0, 0)))
-            this.length++
-        }
-
-        const bucketSize = (380 - 90) / this.length
+    public update(deltaTime: number) {
+        this.genRandomSpikes()
         for (let i = 0; i < this.length; i++) {
-            // Bucket 0 -> i
-            const random_y = Math.floor(this.genRandom() * bucketSize + 80 + bucketSize * i) // 60-380 (available height range)
-            if (random_y >= 90 && random_y < 380) {
+            this.spikes[i].update(deltaTime)
+        }
+    }
+
+    private genRandomSpikes(): void {
+        const bucketSize = (380 - 90) / this.length
+        const gameScene = <GameScene>spikeGame.game.sceneManager.getCurrentScene()
+        const bird = gameScene.getBird()
+        if (bird.getDirection() != this.spikeDirection) {
+            this.spikeDirection = bird.getDirection()
+            if (spikeGame.getScore().score > 0 && spikeGame.getScore().score % 5 === 0) {
+                this.spikeDirection = bird.getDirection()
+                this.spikes.push(new SideSpike(new Vector2D(0, 0)))
+                this.syncSpikes()
+                this.length++
+            }
+            const random = Math.floor(this.genRandom())
+            for (let i = 0; i < this.length; i++) {
+                // Bucket 0 -> i
+                const random_y = random * bucketSize + 100 + bucketSize * i // 60-380 (available height range)
                 this.spikes[i].setY(random_y)
                 if (this.spikes[i].getX() > 300) this.spikes[i].setX(-3)
                 else this.spikes[i].setX(318)
@@ -64,5 +79,15 @@ export default class SpikesController extends BaseGameObject {
         for (let i = 0; i < this.length; i++) {
             this.spikes.push(new SideSpike(new Vector2D(0, 0)))
         }
+    }
+
+    public syncSpikes = () => {
+        for (let i = 0; i < this.length; i++) {
+            this.spikes[i] = new SideSpike(new Vector2D(0, 0))
+        }
+    }
+
+    public pause(_deltaTime: number) {
+        return
     }
 }

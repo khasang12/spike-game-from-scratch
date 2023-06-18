@@ -1,20 +1,9 @@
 export default class Sound {
-    private audio: HTMLAudioElement
     private static volume = 0.2
+    private audio: HTMLAudioElement
 
     constructor(src: string) {
         this.audio = new Audio(src)
-    }
-
-    public static setVolume(volume: number): void {
-        volume /= 100
-        if (volume > 1) volume = 1
-        else if (volume < 0) volume = 0
-        Sound.volume = volume
-    }
-
-    public static getVolume(): number {
-        return Sound.volume * 100
     }
 
     public play(): void {

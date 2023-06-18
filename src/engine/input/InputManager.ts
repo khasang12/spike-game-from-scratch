@@ -1,12 +1,13 @@
+import { game } from '../core/GameCore'
 import { KEY_CODE, MOUSE_CODE } from '../utils/constants'
 
 export default class InputManager {
     private static instance: InputManager
     private readonly keyCode: { [key: string]: number }
     private readonly mouseCode: { [key: string]: number }
-    private keyBindings: { [key: string]: { [key: string]: number } }
+    private keyBindings: { [key: string]: { [key: string]: boolean } }
     private mouseBindings: string
-    private canvas: HTMLCanvasElement
+    private mousePosition: [number, number]
 
     private constructor() {
         this.keyCode = KEY_CODE
@@ -14,7 +15,6 @@ export default class InputManager {
         this.keyBindings = {
             keyDown: {},
             keyUp: {},
-            keyPress: {},
         }
         this.mouseBindings = ''
     }
@@ -32,19 +32,19 @@ export default class InputManager {
         document.addEventListener('keydown', (event) => this.handleKeyDown(event))
         document.addEventListener('keyup', (event) => this.handleKeyUp(event))
         document.addEventListener('click', (event) => this.handleClick(event))
+        document.addEventListener('mousemove', (event) => this.handleMouseMove(event))
     }
 
     private handleKeyDown(event: KeyboardEvent): void {
         if (!this.keyCode[event.key]) {
-            this.keyBindings.keyDown[event.key] = 1
-            this.keyBindings.keyPress[event.key] = 1
+            this.keyBindings.keyDown[event.key] = true
         }
         delete this.keyBindings.keyUp[event.key]
     }
 
     private handleKeyUp(event: KeyboardEvent): void {
-        this.keyBindings.keyUp[event.key] = 1
-        delete this.keyBindings.keyPress[event.key]
+        this.keyBindings.keyUp[event.key] = true
+        delete this.keyBindings.keyDown[event.key]
     }
 
     private handleClick(event: MouseEvent): void {
@@ -57,23 +57,34 @@ export default class InputManager {
         }
     }
 
-    public hasKeyDown(keyCode: number) {
-        return this.keyBindings.keyDown[keyCode] == 1
+    public handleMouseMove(event: MouseEvent): void {
+        const rect = game.canvas.getCanvas().getBoundingClientRect()
+        const mouseX = event.clientX - rect.x
+        const mouseY = event.clientY - rect.y
+        this.mousePosition = [mouseX, mouseY]
     }
 
-    public hasKeyUp(keyCode: number) {
-        return this.keyBindings.keyDown[keyCode] == 1
+    public getMousePosition(): [number, number]{
+        return this.mousePosition
     }
 
-    public hasKeyPress(keyCode: number) {
-        return this.keyBindings.keyDown[keyCode] == 1
+    public hasKeyDown(keyCode: number): boolean {
+        return this.keyBindings.keyDown[keyCode] == true
     }
 
-    public hasMouseBinding(keyCode: string) {
+    public hasKeyUp(keyCode: number): boolean {
+        return this.keyBindings.keyDown[keyCode] == true
+    }
+
+    public hasKeyPress(keyCode: number): boolean {
+        return this.keyBindings.keyDown[keyCode] == true
+    }
+
+    public hasMouseBinding(keyCode: string): boolean {
         return this.mouseBindings === keyCode
     }
 
-    public removeMouseBinding() {
+    public removeMouseBinding(): void {
         this.mouseBindings = ''
     }
 }

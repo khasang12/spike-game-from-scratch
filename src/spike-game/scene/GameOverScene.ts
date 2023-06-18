@@ -1,4 +1,5 @@
 import { game } from '../../engine/core/GameCore'
+import Rectangle from '../../engine/renderer/Rectangle'
 import BaseScene from '../../engine/scene/BaseScene'
 import Vector2D from '../../engine/utils/Vector2D'
 import { GAME_STATUS } from '../../engine/utils/constants'
@@ -26,17 +27,29 @@ export default class GameOverScene extends BaseScene {
         this.score = new GameScore(new Vector2D(0, 0))
         this.topSpikes = new TopSpike(new Vector2D(0, 0))
         this.botSpikes = new BotSpike(new Vector2D(0, 0))
+
+        this.addObject(this.background, 0)
+        this.addObject(this.score, 1)
+        this.addObject(this.topSpikes, 2)
+        this.addObject(this.botSpikes, 3)
     }
 
     public draw(): void {
-        if (game.inputManager.hasMouseBinding('LEFT')) {
-            game.state = GAME_STATUS.READY
+        this.update()
+        for (const [obj, _depth] of this.depths) {
+            obj.render()
         }
-        game.inputManager.removeMouseBinding()
     }
 
     public update(): void {
-        return
+        if (game.inputManager.hasMouseBinding('LEFT')) {
+            const [x, y] = game.inputManager.getMousePosition()
+            const isButtonClicked = Rectangle.isPointInRect(x, y, 50, 277, 262, 53)
+            if (isButtonClicked) {
+                game.state = GAME_STATUS.READY
+            }
+        }
+        game.inputManager.removeMouseBinding()
     }
 
     public unload(): void {

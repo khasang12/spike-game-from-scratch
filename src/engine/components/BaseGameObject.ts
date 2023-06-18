@@ -4,16 +4,14 @@ import BaseComponent from './BaseComponent'
 import BaseObject from './BaseObject'
 
 export default abstract class BaseGameObject extends BaseObject {
-    private initPosition: Vector2D // Position on canvas
-    private position: Vector2D // Position on canvas
     private w: number
     private h: number
-    private components: { [key: string]: BaseComponent }
+    private position: Vector2D
+    private components: BaseComponent[]
 
     constructor(pos = new Vector2D(0, 0)) {
         super()
-        this.initPosition = pos
-        this.components = {}
+        this.components = []
         this.position = pos
         this.game = game
     }
@@ -50,25 +48,18 @@ export default abstract class BaseGameObject extends BaseObject {
         this.setPosition(new Vector2D(this.getX(), y))
     }
 
-    public abstract draw(): void
-
-    public reset() {
-        this.position = this.initPosition
-    }
-
     public setToggleActive(active: boolean) {
+        // set all components from GameObject to "Active" Flag
         if (active && !this.isEnabled) {
             for (const key in this.components) {
                 this.components[key].setToggleActive(true)
             }
             this.isEnabled = true
-            this.onEnable()
         } else if (!active && this.isEnabled) {
             for (const key in this.components) {
                 this.components[key].setToggleActive(true)
             }
             this.isEnabled = false
-            this.onDisable()
         }
     }
 
@@ -81,10 +72,16 @@ export default abstract class BaseGameObject extends BaseObject {
     }
 
     public addComponent(component: BaseComponent) {
-        this.components[component.getName()] = component
+        this.components.push(component)
     }
 
-    public getComponent(name: string) {
-        return this.components[name]
+    public onCollision(_event: number) {
+        throw new Error('Method not implemented.')
     }
+
+    public abstract render(): void
+
+    public abstract update(deltaTime: number): void
+
+    public abstract pause(deltaTime: number): void
 }

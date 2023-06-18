@@ -1,14 +1,20 @@
 import { CANVAS_WIDTH } from '../../constants'
 import BaseGameObject from '../../engine/components/BaseGameObject'
-import Sprite from '../../engine/components/sprite/Sprite'
+import Oscillator from './Oscillator'
+import Sprite from '../../engine/sprite/Sprite'
 import { game } from '../../engine/core/GameCore'
 import Vector2D from '../../engine/utils/Vector2D'
+import { COLLISION_CODE } from '../utils/constants'
+import { Subscriber } from '../../types/subscriber'
+import { spikeGame } from '../GameManager'
 
 const spikeImage = new Image()
 spikeImage.src = 'assets/images/spike_small.png'
 
-export default class SideSpike extends BaseGameObject {
+export default class SideSpike extends BaseGameObject implements Subscriber {
     private sprite: Sprite
+    private physics: Oscillator
+
     constructor(pos: Vector2D) {
         super(pos)
 
@@ -17,11 +23,14 @@ export default class SideSpike extends BaseGameObject {
         this.setX(CANVAS_WIDTH - 2)
         this.setY(-70)
 
+        this.physics = new Oscillator(this)
+
         this.sprite = new Sprite(this)
         this.sprite.setSpriteImg(spikeImage)
     }
-    public draw(): void {
-        if (this.getX() > 300)
+
+    public render(): void {
+        if (this.getX() > 300) {
             game.renderer.drawImage(
                 this.sprite.getSpriteImg(),
                 this.getX(),
@@ -29,7 +38,7 @@ export default class SideSpike extends BaseGameObject {
                 this.getW(),
                 this.getH()
             )
-        else
+        } else
             game.renderer.drawMirrorLRImage(
                 this.sprite.getSpriteImg(),
                 this.getX(),
@@ -38,10 +47,18 @@ export default class SideSpike extends BaseGameObject {
                 this.getH()
             )
     }
+
     public update(deltaTime: number): void {
-        return
+        this.physics.update(deltaTime)
     }
+
     public pause(): void {
         return
+    }
+
+    public onCollision(event: number) {
+        if (event == COLLISION_CODE.SIDE_SPIKE) {
+            spikeGame.game.over()
+        }
     }
 }

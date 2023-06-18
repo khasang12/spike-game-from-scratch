@@ -5,12 +5,13 @@ import GameOverScene from './scene/GameOverScene'
 import GameScene from './scene/GameScene'
 import MainMenuScene from './scene/MainMenuScene'
 
-export default class SpikeGameManager {
+export default class SpikeGameManager extends GameCore {
     public game: GameCore
     private score: IScore
     private curState: number
 
     constructor() {
+        super()
         this.game = game
         this.score = {
             score: 0,
@@ -25,33 +26,41 @@ export default class SpikeGameManager {
     }
 
     public updateWallCollision(): void {
-        game.sceneManager.getCurrentScene().update()
+        const scene = <GameScene>game.sceneManager.getCurrentScene()
+        scene.updateScore()
     }
 
     public start() {
         game.start(360, 480, new MainMenuScene(game.canvas.getCanvas()))
+        this.update(Date.now())
     }
 
     public draw() {
-        game.draw()
+        // State Pattern
         if (this.curState != game.state) {
             this.curState = game.state
             switch (game.state) {
                 case GAME_STATUS.READY:
-                    this.game.sceneManager.loadScene(new MainMenuScene(game.canvas.getCanvas()))
+                    game.sceneManager.loadScene(new MainMenuScene(game.canvas.getCanvas()))
                     break
                 case GAME_STATUS.RUNNING:
-                    this.game.sceneManager.loadScene(new GameScene(game.canvas.getCanvas()))
+                    game.sceneManager.loadScene(new GameScene(game.canvas.getCanvas()))
                     break
                 case GAME_STATUS.OVER:
-                    this.game.sceneManager.loadScene(new GameOverScene(game.canvas.getCanvas()))
+                    game.sceneManager.loadScene(new GameOverScene(game.canvas.getCanvas()))
                     break
             }
         }
         game.sceneManager.getCurrentScene().draw()
+        game.draw()
     }
-    public update(deltaTime: number) {
-        game.update(deltaTime)
+
+    public update(lastTime: number) {
+        const curTime = Date.now()
+        game.update(curTime - lastTime)
+        this.draw()
+        lastTime = Date.now()
+        requestAnimationFrame(() => this.update(lastTime))
     }
 }
 

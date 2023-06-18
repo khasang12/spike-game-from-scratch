@@ -6,9 +6,9 @@ export default abstract class BaseComponent extends BaseObject {
     protected name: string
     protected gameObject: BaseGameObject
     protected game: GameCore
+    
     constructor(gameObject: BaseGameObject) {
         super()
-        this.game.addComponent(this)
         this.gameObject = gameObject
         this.gameObject.addComponent(this)
     }
@@ -21,7 +21,7 @@ export default abstract class BaseComponent extends BaseObject {
         this.name = name
     }
 
-    public abstract draw(): void
+    public abstract render(): void
 
     public abstract update(deltaTime: number): void
 

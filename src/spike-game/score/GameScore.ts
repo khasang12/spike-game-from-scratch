@@ -1,6 +1,6 @@
 import { CANVAS_HEIGHT, CANVAS_WIDTH } from '../../constants'
 import BaseGameObject from '../../engine/components/BaseGameObject'
-import Sprite from '../../engine/components/sprite/Sprite'
+import Sprite from '../../engine/sprite/Sprite'
 import Vector2D from '../../engine/utils/Vector2D'
 import { GAME_STATUS } from '../../engine/utils/constants'
 import { spikeGame } from '../GameManager'
@@ -42,8 +42,8 @@ export default class GameScore extends BaseGameObject {
         renderer.drawImage(dttsString, 45, 75, 873 / 3.2, 240 / 3.2)
         renderer.drawImage(hitString, 125, 170, 111, 57)
         renderer.drawImage(StringBEST, 70, 327, 614 / 3.2, 155 / 3.2)
-        renderer.drawText(spikeGame.getScore().bestScore.toString(), 267, 350, '#ababab', 30)
-        renderer.drawText(spikeGame.getScore().gamesPlayed.toString(), 267, 377, '#ababab', 30)
+        renderer.drawText(spikeGame.getScore().bestScore.toString(), 287, 350, '#aaa', 30)
+        renderer.drawText(spikeGame.getScore().gamesPlayed.toString(), 287, 377, '#aaa', 30)
     }
 
     private drawEndScore(): void {
@@ -60,8 +60,8 @@ export default class GameScore extends BaseGameObject {
             renderer.drawText(spikeGame.getScore().score.toString(), 163, 235, 'white', 50)
 
         renderer.drawImage(StringBEST, 74, 350, 614 / 3.2, 155 / 3.2)
-        renderer.drawText(spikeGame.getScore().bestScore.toString(), 267, 370, '#aaa', 30)
-        renderer.drawText(spikeGame.getScore().gamesPlayed.toString(), 267, 397, '#aaa', 30)
+        renderer.drawText(spikeGame.getScore().bestScore.toString(), 287, 370, '#aaa', 30)
+        renderer.drawText(spikeGame.getScore().gamesPlayed.toString(), 287, 397, '#aaa', 30)
     }
 
     private drawGameScore(): void {
@@ -72,26 +72,26 @@ export default class GameScore extends BaseGameObject {
             renderer.drawText(
                 this.score.toString(),
                 CANVAS_WIDTH / 2,
-                CANVAS_HEIGHT / 2 + 18,
+                CANVAS_HEIGHT / 2 + 28,
                 '#ababab'
             )
         else if (this.score < 100)
             renderer.drawText(
                 this.score.toString(),
                 CANVAS_WIDTH / 2,
-                CANVAS_HEIGHT / 2 + 18,
+                CANVAS_HEIGHT / 2 + 28,
                 '#ababab'
             )
         else if (this.score >= 100)
             renderer.drawText(
                 this.score.toString(),
                 CANVAS_WIDTH / 2 - 10,
-                CANVAS_HEIGHT / 2 + 18,
+                CANVAS_HEIGHT / 2 + 28,
                 '#ababab'
             )
     }
 
-    public draw(): void {
+    public render(): void {
         if (this.game.state === GAME_STATUS.READY) {
             this.drawStartScore()
         } else if (this.game.state === GAME_STATUS.RUNNING) {
@@ -101,7 +101,7 @@ export default class GameScore extends BaseGameObject {
         }
     }
 
-    public update(lastTime: number, deltaTime: number): void {
+    public update(deltaTime: number): void {
         return
     }
 

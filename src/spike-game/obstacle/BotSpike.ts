@@ -1,14 +1,16 @@
 import { CANVAS_HEIGHT } from '../../constants'
 import BaseGameObject from '../../engine/components/BaseGameObject'
-import Sprite from '../../engine/components/sprite/Sprite'
+import Sprite from '../../engine/sprite/Sprite'
 import { game } from '../../engine/core/GameCore'
 import Vector2D from '../../engine/utils/Vector2D'
+import { Subscriber } from '../../types/subscriber'
 
 const spikesImage = new Image()
 spikesImage.src = 'assets/images/spikes_small_up.png'
 
-export default class BotSpike extends BaseGameObject {
+export default class BotSpike extends BaseGameObject implements Subscriber {
     private sprite: Sprite
+
     constructor(pos: Vector2D) {
         super(pos)
 
@@ -20,7 +22,8 @@ export default class BotSpike extends BaseGameObject {
         this.sprite = new Sprite(this)
         this.sprite.setSpriteImg(spikesImage)
     }
-    public draw(): void {
+
+    public render(): void {
         game.renderer.drawImage(
             this.sprite.getSpriteImg(),
             this.getX(),
@@ -29,10 +32,16 @@ export default class BotSpike extends BaseGameObject {
             this.getH()
         )
     }
-    public update(lastTime: number, deltaTime: number): void {
+
+    public update(deltaTime: number): void {
         return
     }
+
     public pause(): void {
+        return
+    }
+
+    public onCollision(event: number) {
         return
     }
 }

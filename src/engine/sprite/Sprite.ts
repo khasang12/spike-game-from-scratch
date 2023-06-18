@@ -1,8 +1,9 @@
-import BaseComponent from '../BaseComponent'
-import BaseGameObject from '../BaseGameObject'
+import BaseComponent from '../components/BaseComponent'
+import BaseGameObject from '../components/BaseGameObject'
 
 export default class Sprite extends BaseComponent {
     private image: HTMLImageElement
+
     constructor(gameObject: BaseGameObject) {
         super(gameObject)
     }
@@ -15,15 +16,17 @@ export default class Sprite extends BaseComponent {
         return this.image
     }
 
-    public draw(): void {
-        if (this.gameObject.getIsEnabled()) this.gameObject.draw()
+    public render(): void {
+        if (this.gameObject.getIsEnabled()) {
+            this.gameObject.render()
+        }
     }
 
-    public update(deltaTime: number): void {
+    public update(_deltaTime: number): void {
         return
     }
 
-    public pause(deltaTime: number): void {
+    public pause(_deltaTime: number): void {
         return
     }
 }

@@ -35,12 +35,3 @@ export const MOUSE_CODE = {
     MIDDLE: 1,
     RIGHT: 2,
 }
-
-export const DIRECTIONS = {
-    STOP: 0,
-    LEFT: 1,
-    RIGHT: 2,
-}
-
-export const CANVAS_WIDTH = 360
-export const CANVAS_HEIGHT = 480

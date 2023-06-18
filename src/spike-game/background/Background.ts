@@ -1,6 +1,6 @@
 import { CANVAS_HEIGHT, CANVAS_WIDTH } from '../../constants'
 import BaseGameObject from '../../engine/components/BaseGameObject'
-import Sprite from '../../engine/components/sprite/Sprite'
+import Sprite from '../../engine/sprite/Sprite'
 import Vector2D from '../../engine/utils/Vector2D'
 
 const bgImage = new Image()
@@ -8,6 +8,7 @@ bgImage.src = 'assets/images/background.png'
 
 export default class Background extends BaseGameObject {
     private sprite: Sprite
+
     constructor(pos: Vector2D) {
         super(pos)
 
@@ -19,7 +20,8 @@ export default class Background extends BaseGameObject {
         this.sprite = new Sprite(this)
         this.sprite.setSpriteImg(bgImage)
     }
-    public draw(): void {
+
+    public render(): void {
         this.game.renderer.drawImage(
             bgImage,
             this.getX() - this.getW() / 2,
@@ -28,9 +30,11 @@ export default class Background extends BaseGameObject {
             this.getH()
         )
     }
-    public update(lastTime: number, deltaTime: number): void {
+
+    public update(deltaTime: number): void {
         return
     }
+
     public pause(): void {
         return
     }
