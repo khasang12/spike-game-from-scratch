@@ -16,8 +16,7 @@ export default class Image implements Renderable {
         y: number,
         width: number,
         height: number,
-        direction: number,
-        isDrawn = true
+        direction: number
     ) {
         this.ctx = ctx
         this.x = x
@@ -26,8 +25,6 @@ export default class Image implements Renderable {
         this.width = width
         this.height = height
         this.direction = direction
-
-        if (isDrawn) this.draw()
     }
 
     public draw(): void {

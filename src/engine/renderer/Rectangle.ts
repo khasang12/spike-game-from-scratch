@@ -14,7 +14,6 @@ export default class Rectangle extends Shape implements Renderable {
         y: number,
         width: number,
         height: number,
-        isDrawn = true,
         color = 'white'
     ) {
         super()
@@ -24,10 +23,6 @@ export default class Rectangle extends Shape implements Renderable {
         this.color = color
         this.width = width
         this.height = height
-
-        if (isDrawn) {
-            this.draw()
-        }
     }
 
     public getX() {

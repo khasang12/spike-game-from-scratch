@@ -29,21 +29,21 @@ export default class GameScene extends BaseScene {
     }
 
     public load(): void {
-        this.background = new Background(new Vector2D(0, 0))
-        this.score = new GameScore(new Vector2D(0, 0))
-        this.bird = new Bird('Game', new Vector2D(0, 0))
-        this.topSpikes = new TopSpike(new Vector2D(0, 0))
-        this.botSpikes = new BotSpike(new Vector2D(0, 0))
-        this.sideSpikes = new SpikesController()
-        this.candy = new Candy(new Vector2D(0, 0))
+        this.background = new Background(new Vector2D(0, 0), 0)
+        this.score = new GameScore(new Vector2D(0, 0), 1)
+        this.bird = new Bird('Game', new Vector2D(0, 0), 2)
+        this.topSpikes = new TopSpike(new Vector2D(0, 0), 3)
+        this.botSpikes = new BotSpike(new Vector2D(0, 0), 4)
+        this.sideSpikes = new SpikesController(5)
+        this.candy = new Candy(new Vector2D(0, 0), 6)
 
-        this.addObject(this.background, 0)
-        this.addObject(this.score, 1)
-        this.addObject(this.bird, 2)
-        this.addObject(this.topSpikes, 3)
-        this.addObject(this.botSpikes, 4)
-        this.addObject(this.sideSpikes, 5)
-        this.addObject(this.candy, 6)
+        this.addObject(this.background)
+        this.addObject(this.score)
+        this.addObject(this.bird)
+        this.addObject(this.topSpikes)
+        this.addObject(this.botSpikes)
+        for (const spike of this.sideSpikes.getSpikes()) this.addObject(spike)
+        this.addObject(this.candy)
 
         this.bird.subscribeCollision()
     }
@@ -60,19 +60,12 @@ export default class GameScene extends BaseScene {
         return this.sideSpikes.getSpikes()
     }
 
-    public draw(): void {
-        for (const [obj, _depth] of this.depths) {
-            obj.render()
-        }
-    }
-
     public update(deltaTime: number): void {
-        for (const [obj, _depth] of this.depths) {
-            obj.update(deltaTime)
-        }
         if (game.inputManager.hasMouseBinding('LEFT') && this.bird.getIsEnabled()) {
-            this.bird.flap(4)
+            this.bird.flap(3.5)
         }
+        this.sideSpikes.genRandomSpikes()
+        super.update(deltaTime)
         game.inputManager.removeMouseBinding()
     }
 

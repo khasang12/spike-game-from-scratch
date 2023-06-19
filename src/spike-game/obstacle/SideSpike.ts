@@ -15,8 +15,8 @@ export default class SideSpike extends BaseGameObject implements Subscriber {
     private sprite: Sprite
     private physics: Oscillator
 
-    constructor(pos: Vector2D) {
-        super(pos)
+    constructor(pos: Vector2D, depth = 0) {
+        super(pos, depth)
 
         this.setW(69 / 3.2)
         this.setH(116 / 3.2)

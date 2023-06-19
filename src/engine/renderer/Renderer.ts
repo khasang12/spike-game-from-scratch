@@ -39,15 +39,18 @@ export default class Renderer {
     // Command Pattern
 
     public drawRect(x: number, y: number, width: number, height: number, color: string): void {
-        new Rectangle(this.ctx, x, y, width, height, true, color)
+        const shape = new Rectangle(this.ctx, x, y, width, height, color)
+        shape.draw()
     }
 
     public drawCircle(x: number, y: number, radius: number, color: string): void {
-        new Circle (this.ctx, x, y, radius, color)
+        const shape = new Circle(this.ctx, x, y, radius, color)
+        shape.draw()
     }
 
     public drawText(text: string, x: number, y: number, color: string, size = 70): void {
-        new Text(this.ctx, text, x, y, color, size)
+        const shape = new Text(this.ctx, text, x, y, color, size)
+        shape.draw()
     }
 
     public drawImage(
@@ -57,7 +60,8 @@ export default class Renderer {
         width: number,
         height: number
     ): void {
-        new Image(this.ctx, image, x, y, width, height, 1)
+        const shape = new Image(this.ctx, image, x, y, width, height, 1)
+        shape.draw()
     }
 
     public drawMirrorLRImage(
@@ -67,6 +71,7 @@ export default class Renderer {
         width: number,
         height: number
     ): void {
-        new Image(this.ctx, image, x, y, width, height, -1)
+        const shape = new Image(this.ctx, image, x, y, width, height, -1)
+        shape.draw()
     }
 }

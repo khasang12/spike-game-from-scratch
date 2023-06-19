@@ -9,8 +9,8 @@ bgImage.src = 'assets/images/background.png'
 export default class Background extends BaseGameObject {
     private sprite: Sprite
 
-    constructor(pos: Vector2D) {
-        super(pos)
+    constructor(pos: Vector2D, depth = 0) {
+        super(pos, depth)
 
         this.setW(CANVAS_WIDTH)
         this.setH(CANVAS_HEIGHT)

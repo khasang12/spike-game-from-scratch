@@ -67,8 +67,7 @@ export default class BirdCollider extends Collider {
             candy.getX(),
             candy.getY(),
             candy.getW(),
-            candy.getH(),
-            false
+            candy.getH()
         )
         if (this.checkCollision({ object: candyBounds })) return true
         return false
