@@ -5,7 +5,7 @@ import Sprite from '../../engine/sprite/Sprite'
 import GameScene from '../scene/GameScene'
 import { DIRECTIONS } from '../../constants'
 
-export default class SpikeManager {
+export default class SpikesController {
     private length: number
     private spikes: SideSpike[]
     private sprite: Sprite
@@ -17,7 +17,6 @@ export default class SpikeManager {
         for (let i = 0; i < this.length; i++) {
             this.spikes.push(new SideSpike(new Vector2D(0, 0), depth))
         }
-        //this.sprite = new Sprite(this)
     }
 
     public genRandom(): number {
@@ -44,14 +43,11 @@ export default class SpikeManager {
             this.spikeDirection = bird.getDirection()
             for (let i = 0; i < this.length; i++) {
                 const random_y = random * bucketSize + bucketSize * i + 50 // 60-380 (available height range)
-                console.log(random_y)
                 // Bucket 0 -> i
                 this.spikes[i].setY(random_y)
-                console.log(random_y)
                 if (this.spikes[i].getX() > 300) this.spikes[i].setX(-3)
                 else this.spikes[i].setX(318)
             }
-            console.log(this.spikes[0].getY())
         }
     }
 

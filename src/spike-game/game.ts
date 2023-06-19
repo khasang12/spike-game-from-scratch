@@ -5,7 +5,6 @@ export const soundFlap = new Sound('assets/sounds/jump.ogg')
 export const soundCandy = new Sound('assets/sounds/candy.mp3')
 export const soundCollide = new Sound('assets/sounds/death.ogg')
 export const soundSide = new Sound('assets/sounds/point.ogg')
-export const soundTheme = new Sound('assets/sounds/music.mp3')
 
 const spikeGame = new SpikeGameManager()
 spikeGame.start()

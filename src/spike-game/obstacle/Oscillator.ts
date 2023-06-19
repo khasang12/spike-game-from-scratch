@@ -10,8 +10,8 @@ export default class Oscillator extends BaseComponent {
 
     constructor(gameObject: BaseGameObject) {
         super(gameObject)
-        this.freq = 100        
-        this.amplitude = 1
+        this.freq = 1        
+        this.amplitude = 0.5
         this.phase = 0
         this.velocity = new Vector2D(0, this.amplitude)
     }
