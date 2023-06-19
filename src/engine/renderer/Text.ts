@@ -22,8 +22,6 @@ export default class Text implements Renderable {
         this.y = y
         this.size = size
         this.color = color
-
-        this.draw()
     }
 
     public draw(): void {

@@ -30,8 +30,8 @@ export default class Bird extends BaseGameObject implements Subscriber {
     private oscillator: Oscillator
     private eventSystem: EventSystem
 
-    constructor(name: string, pos: Vector2D) {
-        super(pos)
+    constructor(name: string, pos: Vector2D, depth = 0) {
+        super(pos, depth)
         this.setW(156 / 3.2)
         this.setH(101 / 3.2)
         this.setX(CANVAS_WIDTH / 2 - 20)

@@ -24,24 +24,22 @@ export default class MainMenuScene extends BaseScene {
     }
 
     public load(): void {
-        this.background = new Background(new Vector2D(0, 0))
-        this.score = new GameScore(new Vector2D(0, 0))
-        this.bird = new Bird('Ready', new Vector2D(0, 0))
-        this.topSpikes = new TopSpike(new Vector2D(0, 0))
-        this.botSpikes = new BotSpike(new Vector2D(0, 0))
+        this.background = new Background(new Vector2D(0, 0), 0)
+        this.score = new GameScore(new Vector2D(0, 0), 1)
+        this.bird = new Bird('Ready', new Vector2D(0, 0), 2)
+        this.topSpikes = new TopSpike(new Vector2D(0, 0), 3)
+        this.botSpikes = new BotSpike(new Vector2D(0, 0), 4)
 
-        this.addObject(this.background, 0)
-        this.addObject(this.score, 1)
-        this.addObject(this.bird, 2)
-        this.addObject(this.topSpikes, 3)
-        this.addObject(this.botSpikes, 4)
+        this.addObject(this.background)
+        this.addObject(this.score)
+        this.addObject(this.bird)
+        this.addObject(this.topSpikes)
+        this.addObject(this.botSpikes)
     }
 
     public draw(): void {
         this.update()
-        for (const [obj, _depth] of this.depths) {
-            obj.render()
-        }
+        super.draw()
     }
 
     public update(): void {

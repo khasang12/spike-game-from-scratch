@@ -10,8 +10,8 @@ spikesImage.src = 'assets/images/spikes_small.png'
 export default class TopSpike extends BaseGameObject implements Subscriber {
     private sprite: Sprite
 
-    constructor(pos: Vector2D) {
-        super(pos)
+    constructor(pos: Vector2D, depth = 0) {
+        super(pos, depth)
 
         this.setW(1080 / 3.3 - 7)
         this.setH(218 / 3.3)

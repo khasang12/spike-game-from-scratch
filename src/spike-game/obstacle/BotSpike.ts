@@ -11,8 +11,8 @@ spikesImage.src = 'assets/images/spikes_small_up.png'
 export default class BotSpike extends BaseGameObject implements Subscriber {
     private sprite: Sprite
 
-    constructor(pos: Vector2D) {
-        super(pos)
+    constructor(pos: Vector2D, depth = 0) {
+        super(pos, depth)
 
         this.setW(1080 / 3.3 - 7)
         this.setH(218 / 3.3)

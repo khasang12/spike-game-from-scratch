@@ -17,8 +17,8 @@ export default class Candy extends BaseGameObject implements Subscriber {
     private sprite: Sprite
     private oscillator: Oscillator
 
-    constructor(pos: Vector2D) {
-        super(pos)
+    constructor(pos: Vector2D, depth = 0) {
+        super(pos, depth)
 
         this.setW(118 / 3.2)
         this.setH(70 / 3.2)

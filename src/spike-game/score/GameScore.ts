@@ -23,8 +23,8 @@ export default class GameScore extends BaseGameObject {
     private candyCount: number
     private score: number
 
-    constructor(pos: Vector2D) {
-        super(pos)
+    constructor(pos: Vector2D, depth = 0) {
+        super(pos, depth)
 
         this.bestScore = 0
         this.gamesPlayed = 0

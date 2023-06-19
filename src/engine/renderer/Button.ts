@@ -20,8 +20,7 @@ export default class Button implements Renderable {
         height: number,
         buttonColor: string,
         textColor: string,
-        text: string,
-        isDrawn = true
+        text: string
     ) {
         this.ctx = ctx
         this.x = x
@@ -31,15 +30,19 @@ export default class Button implements Renderable {
         this.buttonColor = buttonColor
         this.textColor = textColor
         this.text = text
-
-        if (isDrawn) {
-            this.draw()
-        }
     }
 
     public draw(): void {
-        new Rectangle(this.ctx, this.x, this.y, this.width, this.height, true, this.buttonColor)
-        new Text(
+        const rec = new Rectangle(
+            this.ctx,
+            this.x,
+            this.y,
+            this.width,
+            this.height,
+            this.buttonColor
+        )
+        rec.draw()
+        const text = new Text(
             this.ctx,
             this.text,
             this.x + this.width / 3,
@@ -47,5 +50,6 @@ export default class Button implements Renderable {
             this.textColor,
             30
         )
+        text.draw()
     }
 }

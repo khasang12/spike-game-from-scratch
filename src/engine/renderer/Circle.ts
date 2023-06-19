@@ -12,8 +12,7 @@ export default class Circle extends Shape implements Renderable {
         x: number,
         y: number,
         radius: number,
-        color: string,
-        isDrawn = true
+        color: string
     ) {
         super()
         this.ctx = ctx
@@ -21,8 +20,6 @@ export default class Circle extends Shape implements Renderable {
         this.y = y
         this.radius = radius
         this.color = color
-
-        if (isDrawn) this.draw()
     }
 
     public draw(): void {

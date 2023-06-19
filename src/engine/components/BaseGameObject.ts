@@ -8,12 +8,14 @@ export default abstract class BaseGameObject extends BaseObject {
     private h: number
     private position: Vector2D
     private components: BaseComponent[]
+    private depth: number
 
-    constructor(pos = new Vector2D(0, 0)) {
+    constructor(pos = new Vector2D(0, 0), depth = 0) {
         super()
         this.components = []
         this.position = pos
         this.game = game
+        this.depth = depth
     }
 
     public getW() {
@@ -46,6 +48,14 @@ export default abstract class BaseGameObject extends BaseObject {
 
     public setY(y: number) {
         this.setPosition(new Vector2D(this.getX(), y))
+    }
+
+    public getDepth(): number {
+        return this.depth
+    }
+
+    public setDepth(depth: number) {
+        this.depth = depth
     }
 
     public setToggleActive(active: boolean) {

@@ -23,19 +23,20 @@ export default class GameOverScene extends BaseScene {
     }
 
     public load(): void {
-        this.background = new Background(new Vector2D(0, 0))
-        this.score = new GameScore(new Vector2D(0, 0))
-        this.topSpikes = new TopSpike(new Vector2D(0, 0))
-        this.botSpikes = new BotSpike(new Vector2D(0, 0))
+        this.background = new Background(new Vector2D(0, 0), 0)
+        this.score = new GameScore(new Vector2D(0, 0), 1)
+        this.topSpikes = new TopSpike(new Vector2D(0, 0), 2)
+        this.botSpikes = new BotSpike(new Vector2D(0, 0), 3)
 
-        this.addObject(this.background, 0)
-        this.addObject(this.score, 1)
-        this.addObject(this.topSpikes, 2)
-        this.addObject(this.botSpikes, 3)
+        this.addObject(this.background)
+        this.addObject(this.score)
+        this.addObject(this.topSpikes)
+        this.addObject(this.botSpikes)
     }
 
     public draw(): void {
         this.update()
+        super.draw()
         for (const [obj, _depth] of this.depths) {
             obj.render()
         }
